@@ -33,7 +33,7 @@ export default function CartPage() {
     const encodedMessage = encodeURIComponent(message);
 
     // WhatsApp number with country code (India)
-    const whatsappNumber = '917670864352';
+    const whatsappNumber = '918125902062';
 
     // Open WhatsApp
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
@@ -179,3 +179,4 @@ export default function CartPage() {
     </main>
   );
 }
+
