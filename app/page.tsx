@@ -19,7 +19,7 @@ export default function HomePage() {
       setCurrentImageIndex((prevIndex) => 
         (prevIndex + 1) % heroImages.length
       );
-    }, 2000);
+    }, 4000);
 
     // Clean up interval on unmount
     return () => clearInterval(interval);
