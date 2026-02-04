@@ -1,6 +1,30 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function HomePage() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Array of hero image URLs from public/images
+  const heroImages = [
+    '/images/hero1.jpg',
+    '/images/hero2.jpg',
+    '/images/hero3.jpg',
+  ];
+
+  useEffect(() => {
+    // Set up auto-rotation every 2 seconds
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % heroImages.length
+      );
+    }, 2000);
+
+    // Clean up interval on unmount
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   return (
     <main className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12 sm:py-16 md:py-20 bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="w-full max-w-xl text-center space-y-8">
@@ -14,9 +38,24 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Placeholder Illustration */}
-        <div className="bg-white rounded-2xl aspect-square flex items-center justify-center shadow-lg hover:shadow-xl transition duration-300 max-w-xs mx-auto w-full">
-          <div className="text-7xl sm:text-8xl">🚗</div>
+        {/* Auto-Rotating Hero Images */}
+        <div className="flex justify-center">
+          <div className="relative bg-white rounded-2xl aspect-square overflow-hidden shadow-lg w-full max-w-xs flex items-center justify-center">
+            {heroImages.map((imageUrl, index) => (
+              <div
+                key={index}
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${
+                  index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <img
+                  src={imageUrl}
+                  alt={`Hero image ${index + 1}`}
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* CTA Button */}
