@@ -36,7 +36,7 @@ export default function CartPage() {
     const orderId = `GRM-${Date.now()}`;
 
     // Create WhatsApp message
-    const message = `Hello! im ${trimmedName} I would like to place an order.\n\nOrder ID: ${orderId}\n\nItems:\n${items
+    const message = `Hello! I'm ${trimmedName} I would like to place an order.\n\nOrder ID: ${orderId}\n\nItems:\n${items
       .map(
         (item) =>
           `* ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`

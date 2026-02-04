@@ -10,6 +10,7 @@ const PRODUCTS = [
     id: 1,
     name: 'Car Frame Model A',
     price: 999,
+    image: '/images/hero1.jpg',
     description: 'Premium quality car frame built for durability and style. Features high-grade materials and precision engineering.',
     features: [
       'High-strength steel construction',
@@ -22,6 +23,7 @@ const PRODUCTS = [
     id: 2,
     name: 'Car Frame Model B',
     price: 999,
+    image: '/images/hero2.jpg',
     description: 'Advanced car frame designed for performance and reliability. Perfect for all weather conditions.',
     features: [
       'Lightweight aluminum alloy',
@@ -34,6 +36,7 @@ const PRODUCTS = [
     id: 3,
     name: 'Car Frame Model C',
     price: 1299,
+    image: '/images/hero3.jpg',
     description: 'Luxury car frame with premium features and exceptional build quality.',
     features: [
       'Carbon fiber reinforced',
@@ -46,6 +49,7 @@ const PRODUCTS = [
     id: 4,
     name: 'Car Frame Model D',
     price: 1499,
+    image: '/images/hero4.jpg',
     description: 'Top-of-the-line car frame with cutting-edge technology and superior performance.',
     features: [
       'Aerospace-grade materials',
@@ -116,8 +120,12 @@ export default function ProductDetailPage() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Product Image */}
-            <div className="bg-gradient-to-br from-slate-200 to-slate-100 aspect-square flex items-center justify-center text-9xl">
-              🚗
+            <div className="bg-slate-100 aspect-square flex items-center justify-center overflow-hidden">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Product Info */}

@@ -7,21 +7,25 @@ const PRODUCTS = [
     id: 1,
     name: 'Car Frame Model A',
     price: 999,
+    image: '/images/hero1.jpg',
   },
   {
     id: 2,
     name: 'Car Frame Model B',
     price: 999,
+    image: '/images/hero2.jpg',
   },
   {
     id: 3,
     name: 'Car Frame Model C',
     price: 1299,
+    image: '/images/hero3.jpg',
   },
   {
     id: 4,
     name: 'Car Frame Model D',
     price: 1499,
+    image: '/images/hero4.jpg',
   },
 ];
 
@@ -48,8 +52,12 @@ export default function ItemsPage() {
               className="bg-white rounded-lg shadow-sm hover:shadow-lg transition duration-300 overflow-hidden group"
             >
               {/* Product Image */}
-              <div className="w-full aspect-square bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center text-5xl sm:text-6xl group-hover:scale-105 transition duration-300">
-                🚗
+              <div className="w-full aspect-square bg-slate-100 flex items-center justify-center overflow-hidden">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                />
               </div>
               
               {/* Product Info */}
