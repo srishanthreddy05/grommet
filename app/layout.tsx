@@ -32,6 +32,11 @@ export default function RootLayout({
         <CartProvider>
           <Navbar />
           {children}
+          <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm text-slate-500">
+              Currently in testing phase
+            </div>
+          </footer>
         </CartProvider>
       </body>
     </html>

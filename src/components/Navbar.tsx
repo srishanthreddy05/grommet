@@ -1,37 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { useCart } from '@/src/context/CartContext';
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const { items } = useCart();
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
 
-  // Close menu when route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, []);
-
-  // Close menu on Escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [isOpen]);
-
   return (
-    <nav className="sticky top-0 z-50 bg-slate-900 text-white shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Brand Name */}
+          {/* Brand Name - Acts as Home */}
           <Link
             href="/"
             className="text-2xl sm:text-3xl font-bold text-white hover:text-slate-100 transition duration-200"
@@ -39,101 +19,58 @@ export default function Navbar() {
             Grommet
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-8 items-center">
-            <Link
-              href="/"
-              className="text-slate-100 hover:text-white transition duration-200 font-medium"
-            >
-              Home
-            </Link>
+          {/* Navigation - Same for both Desktop and Mobile */}
+          <div className="flex gap-6 items-center">
             <Link
               href="/items"
               className="text-slate-100 hover:text-white transition duration-200 font-medium"
             >
-              Items
+              Collections
             </Link>
             <Link
               href="/cart"
-              className="relative text-slate-100 hover:text-white transition duration-200 font-medium"
+              className="relative text-slate-100 hover:text-white transition duration-200"
               aria-label="Cart"
             >
-              Cart
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
             </Link>
-          </div>
-
-          {/* Mobile Hamburger Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-800 transition duration-200"
-            aria-label="Toggle navigation menu"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-          >
-            <svg
-              className="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <button
+              className="text-slate-100 hover:text-white transition duration-200"
+              aria-label="Profile"
             >
-              {isOpen ? (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              </svg>
+            </button>
+          </div>
         </div>
-
-        {/* Mobile Navigation Menu */}
-        {isOpen && (
-          <div
-            id="mobile-menu"
-            className="md:hidden pb-4 space-y-2 border-t border-slate-700 pt-4 animate-in fade-in duration-200"
-          >
-            <Link
-              href="/"
-              className="block px-4 py-3 rounded-lg text-slate-100 hover:bg-slate-800 hover:text-white transition duration-200 font-medium"
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/items"
-              className="block px-4 py-3 rounded-lg text-slate-100 hover:bg-slate-800 hover:text-white transition duration-200 font-medium"
-              onClick={() => setIsOpen(false)}
-            >
-              Items
-            </Link>
-            <Link
-              href="/cart"
-              className="flex items-center justify-between px-4 py-3 rounded-lg text-slate-100 hover:bg-slate-800 hover:text-white transition duration-200 font-medium"
-              onClick={() => setIsOpen(false)}
-            >
-              Cart
-              {cartCount > 0 && (
-                <span className="bg-orange-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-          </div>
-        )}
       </div>
     </nav>
   );

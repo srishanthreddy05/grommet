@@ -5,27 +5,41 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, totalAmount, clearCart } = useCart();
+  const { items, updateQuantity, totalAmount, clearCart } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [formError, setFormError] = useState('');
 
   const handleCheckout = () => {
     if (items.length === 0) return;
+
+    const trimmedName = customerName.trim();
+    const trimmedPhone = customerPhone.trim();
+    const phoneIsValid = /^[0-9]{10}$/.test(trimmedPhone);
+
+    if (!trimmedName || !trimmedPhone) {
+      setFormError('Please enter your name and 10-digit phone number.');
+      return;
+    }
+
+    if (!phoneIsValid) {
+      setFormError('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    setFormError('');
 
     setIsCheckingOut(true);
 
     // Generate Order ID
     const orderId = `GRM-${Date.now()}`;
 
-    // Format order details
-    const orderItems = items
-      .map((item) => `${item.name} x ${item.quantity}`)
-      .join(', ');
-
     // Create WhatsApp message
-    const message = `Hello! I would like to place an order.\n\nOrder ID: ${orderId}\n\nItems:\n${items
+    const message = `Hello! im ${trimmedName} I would like to place an order.\n\nOrder ID: ${orderId}\n\nItems:\n${items
       .map(
         (item) =>
-          `• ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`
+          `* ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`
       )
       .join('\n')}\n\nTotal Amount: ₹${totalAmount}\n\nPlease confirm my order. Thank you!`;
 
@@ -85,54 +99,45 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+              className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 p-5 sm:p-6"
             >
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-                  {item.name}
-                </h3>
-                <p className="text-slate-900 font-semibold mt-1 text-lg">
-                  ₹{item.price}
-                </p>
-              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1">
+                    {item.name}
+                  </h3>
+                  <p className="text-slate-600 text-sm">
+                    ₹{item.price} each
+                  </p>
+                </div>
 
-              {/* Quantity Controls */}
-              <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
-                <button
-                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  className="w-10 h-10 flex items-center justify-center rounded font-bold text-slate-900 hover:bg-slate-200 transition duration-200 active:bg-slate-300"
-                  aria-label="Decrease quantity"
-                >
-                  −
-                </button>
-                <span className="w-8 text-center font-semibold text-slate-900">
-                  {item.quantity}
-                </span>
-                <button
-                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  className="w-10 h-10 flex items-center justify-center rounded font-bold text-slate-900 hover:bg-slate-200 transition duration-200 active:bg-slate-300"
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-2 bg-slate-100 rounded-lg p-1">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="w-10 h-10 flex items-center justify-center rounded font-bold text-slate-900 hover:bg-slate-200 transition duration-200 active:bg-slate-300"
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+                  <span className="w-8 text-center font-semibold text-slate-900">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="w-10 h-10 flex items-center justify-center rounded font-bold text-slate-900 hover:bg-slate-200 transition duration-200 active:bg-slate-300"
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-
-              {/* Subtotal */}
-              <div className="text-right flex-shrink-0">
-                <p className="text-xs sm:text-sm text-slate-600 mb-1">Subtotal</p>
-                <p className="text-xl sm:text-2xl font-bold text-slate-900">
-                  ₹{item.price * item.quantity}
-                </p>
+              
+              {/* Item Total on same line */}
+              <div className="mt-3 flex justify-between items-center border-t border-slate-100 pt-3">
+                <span className="text-sm text-slate-600">Item Total ({item.quantity} × ₹{item.price})</span>
+                <span className="text-xl font-bold text-slate-900">₹{item.price * item.quantity}</span>
               </div>
-
-              {/* Remove Button */}
-              <button
-                onClick={() => removeItem(item.id)}
-                className="w-full sm:w-auto px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition duration-200 font-medium text-sm"
-                aria-label="Remove from cart"
-              >
-                Remove
-              </button>
             </div>
           ))}
         </div>
@@ -149,8 +154,39 @@ export default function CartPage() {
               <span className="font-bold text-slate-900">₹{totalAmount}</span>
             </div>
 
+            {/* Customer Details */}
+            <div className="space-y-3 sm:space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  placeholder="10-digit number"
+                  className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                />
+              </div>
+              {formError && (
+                <p className="text-sm text-red-600 font-medium">{formError}</p>
+              )}
+            </div>
+
             {/* Action Buttons */}
-            <div className="space-y-2 sm:space-y-3">
+            <div className="space-y-2 sm:space-y-3 mt-4">
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
