@@ -117,10 +117,10 @@ export default function MyOrdersPage() {
   // Loading state while checking auth
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="text-center">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4">
+        <div className="text-center space-y-4">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
-          <p className="mt-4 text-slate-600">Loading...</p>
+          <p className="text-slate-600 font-medium">Loading...</p>
         </div>
       </main>
     );
@@ -129,8 +129,8 @@ export default function MyOrdersPage() {
   // Not logged in - show login message and button
   if (!user) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
+        <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
           <div className="text-center">
             <div className="mx-auto w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mb-4">
               <svg
@@ -160,7 +160,7 @@ export default function MyOrdersPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={authLoading}
-            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-3"
+            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white font-bold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3"
           >
             {authLoading ? (
               <>
@@ -198,27 +198,27 @@ export default function MyOrdersPage() {
 
   // Logged in - show orders
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 px-4 py-8">
+    <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">My Orders</h1>
-          <p className="text-slate-600">Track and manage your orders</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">My Orders</h1>
+          <p className="text-slate-600 text-base sm:text-lg">Track and manage your orders</p>
         </div>
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-red-800">{error}</p>
+            <p className="text-sm text-red-800 font-medium">{error}</p>
           </div>
         )}
 
         {ordersLoading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
-            <p className="mt-4 text-slate-600">Loading orders...</p>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900 mb-4"></div>
+            <p className="text-slate-600 font-medium">Loading orders...</p>
           </div>
         ) : orders.length === 0 ? (
           // Empty state - no orders
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-12 text-center">
             <div className="mx-auto w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <svg
                 className="w-10 h-10 text-slate-400"
@@ -234,30 +234,30 @@ export default function MyOrdersPage() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">No orders yet</h2>
-            <p className="text-slate-600 mb-6">You have no orders yet. Make your first order.</p>
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">No orders yet</h2>
+            <p className="text-slate-600 mb-8">You have no orders yet. Make your first order.</p>
             <Link
               href="/items"
-              className="inline-block bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-8 rounded-lg transition duration-200"
+              className="inline-block bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-8 rounded-xl transition duration-200"
             >
               Browse Collections
             </Link>
           </div>
         ) : (
           // Orders list
-          <div className="space-y-4">
+          <div className="space-y-4 sm:space-y-5">
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-200"
+                className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200 p-6"
               >
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
                   <div>
                     <h3 className="text-lg font-bold text-slate-900">Order #{order.id.slice(0, 8)}</h3>
-                    <p className="text-sm text-slate-500">{formatDate(order.createdAt)}</p>
+                    <p className="text-sm text-slate-600 mt-1">{formatDate(order.createdAt)}</p>
                   </div>
                   <span
-                    className={`px-4 py-1 rounded-full text-sm font-semibold ${
+                    className={`px-4 py-2 rounded-full text-sm font-semibold w-fit ${
                       order.status === 'completed'
                         ? 'bg-green-100 text-green-800'
                         : order.status === 'processing'
@@ -271,23 +271,23 @@ export default function MyOrdersPage() {
                   </span>
                 </div>
 
-                <div className="border-t border-slate-200 pt-4">
-                  <h4 className="text-sm font-semibold text-slate-700 mb-2">Items:</h4>
-                  <ul className="space-y-2">
+                <div className="border-t border-slate-200 pt-5">
+                  <h4 className="text-sm font-bold text-slate-900 mb-3">Items:</h4>
+                  <ul className="space-y-2 mb-4">
                     {order.items.map((item, index) => (
                       <li key={index} className="flex justify-between text-sm">
-                        <span className="text-slate-600">
-                          {item.name} x {item.quantity}
+                        <span className="text-slate-700">
+                          {item.name} <span className="text-slate-600">× {item.quantity}</span>
                         </span>
                         <span className="font-semibold text-slate-900">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ₹{(item.price * item.quantity).toLocaleString()}
                         </span>
                       </li>
                     ))}
                   </ul>
-                  <div className="border-t border-slate-200 mt-3 pt-3 flex justify-between">
+                  <div className="border-t border-slate-200 pt-3 flex justify-between">
                     <span className="font-bold text-slate-900">Total</span>
-                    <span className="font-bold text-slate-900">${order.total.toFixed(2)}</span>
+                    <span className="font-bold text-slate-900">₹{order.total.toLocaleString()}</span>
                   </div>
                 </div>
               </div>

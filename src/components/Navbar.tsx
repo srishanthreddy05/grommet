@@ -37,16 +37,16 @@ export default function Navbar() {
           {/* Brand */}
           <Link
             href="/"
-            className="text-2xl sm:text-3xl font-bold hover:text-slate-100 transition duration-200"
+            className="text-2xl sm:text-3xl font-bold hover:text-slate-200 transition duration-200 flex-shrink-0"
           >
             Grommet
           </Link>
 
           {/* Nav items */}
-          <div className="flex gap-6 items-center">
+          <div className="flex gap-4 sm:gap-6 items-center">
             <Link
               href="/items"
-              className="text-slate-100 hover:text-white transition duration-200 font-medium"
+              className="text-slate-100 hover:text-white transition duration-200 font-medium text-sm sm:text-base"
             >
               Collections
             </Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative text-slate-100 hover:text-white transition duration-200"
+              className="relative text-slate-100 hover:text-white transition duration-200 flex-shrink-0"
               aria-label="Cart"
             >
               <svg
@@ -81,7 +81,7 @@ export default function Navbar() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsProfileOpen((prev) => !prev)}
-                className="text-slate-100 hover:text-white transition duration-200"
+                className="text-slate-100 hover:text-white transition duration-200 flex-shrink-0"
                 aria-label="Profile Menu"
               >
                 <svg
@@ -104,7 +104,7 @@ export default function Navbar() {
                   <Link
                     href="/profile"
                     onClick={() => setIsProfileOpen(false)}
-                    className="block px-4 py-2 hover:bg-slate-100 hover:text-slate-900 transition duration-200 font-medium"
+                    className="block px-4 py-2 hover:bg-slate-100 hover:text-slate-900 transition duration-200 font-medium text-sm"
                   >
                     Profile
                   </Link>
@@ -114,7 +114,7 @@ export default function Navbar() {
                   <Link
                     href="/my-orders"
                     onClick={() => setIsProfileOpen(false)}
-                    className="block px-4 py-2 hover:bg-slate-100 hover:text-slate-900 transition duration-200 font-medium"
+                    className="block px-4 py-2 hover:bg-slate-100 hover:text-slate-900 transition duration-200 font-medium text-sm"
                   >
                     My Orders
                   </Link>

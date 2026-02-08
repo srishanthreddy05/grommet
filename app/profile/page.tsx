@@ -101,10 +101,10 @@ export default function ProfilePage() {
   // Loading state while checking auth
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="text-center">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4">
+        <div className="text-center space-y-4">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
-          <p className="mt-4 text-slate-600">Loading...</p>
+          <p className="text-slate-600 font-medium">Loading...</p>
         </div>
       </main>
     );
@@ -113,8 +113,8 @@ export default function ProfilePage() {
   // Not logged in - show login button
   if (!user) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
+        <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
           <div className="text-center">
             <div className="mx-auto w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mb-4">
               <svg
@@ -144,7 +144,7 @@ export default function ProfilePage() {
           <button
             onClick={handleGoogleLogin}
             disabled={authLoading}
-            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-3"
+            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white font-bold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3"
           >
             {authLoading ? (
               <>
@@ -182,13 +182,13 @@ export default function ProfilePage() {
 
   // Logged in - show user profile
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+    <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-slate-900 mb-6">Your Profile</h1>
           
           {/* Profile Photo */}
-          <div className="mx-auto w-24 h-24 rounded-full overflow-hidden bg-slate-200 mb-4">
+          <div className="mx-auto w-28 h-28 rounded-full overflow-hidden bg-slate-200 mb-6 border-4 border-slate-100">
             {user.photoURL ? (
               <img 
                 src={user.photoURL} 
@@ -217,16 +217,16 @@ export default function ProfilePage() {
 
         {/* User Info */}
         <div className="space-y-4">
-          <div className="bg-slate-50 rounded-lg p-4">
-            <p className="text-sm text-slate-500 mb-1">Name</p>
-            <p className="text-lg font-semibold text-slate-900">
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <p className="text-sm text-slate-600 mb-1 font-medium">Name</p>
+            <p className="text-lg font-bold text-slate-900">
               {user.displayName || 'Not provided'}
             </p>
           </div>
 
-          <div className="bg-slate-50 rounded-lg p-4">
-            <p className="text-sm text-slate-500 mb-1">Email</p>
-            <p className="text-lg font-semibold text-slate-900">
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <p className="text-sm text-slate-600 mb-1 font-medium">Email</p>
+            <p className="text-lg font-bold text-slate-900 break-all">
               {user.email || 'Not provided'}
             </p>
           </div>
@@ -242,7 +242,7 @@ export default function ProfilePage() {
         <button
           onClick={handleLogout}
           disabled={authLoading}
-          className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-3 px-6 rounded-lg transition duration-200"
+          className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-4 px-6 rounded-xl transition duration-200"
         >
           {authLoading ? (
             <span className="flex items-center justify-center gap-2">

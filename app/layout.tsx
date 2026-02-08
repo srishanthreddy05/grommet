@@ -25,15 +25,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
         <CartProvider>
           <Navbar />
-          {children}
-          <footer className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm text-slate-500">
+          <div className="min-h-[calc(100vh-64px)]">
+            {children}
+          </div>
+          <footer className="border-t border-slate-200 bg-white mt-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-slate-600">
               Currently in testing phase
             </div>
           </footer>
