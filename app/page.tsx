@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { get, ref } from 'firebase/database';
 import { database } from '@/src/lib/firebase';
+import CategoryCircles from '@/src/components/CategoryCircles';
+import HeroStats from '@/src/components/HeroStats';
 
 type ProductRecord = {
   name: string;
@@ -88,63 +90,73 @@ export default function HomePage() {
   }, [heroImages.length]);
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center px-4 py-12 sm:py-16 md:py-20">
-      <div className="w-full max-w-4xl">
-        {/* Hero Section */}
-        <div className="space-y-8 sm:space-y-10">
-          <div className="space-y-4 sm:space-y-6 text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
-              Order Car Frames Easily
-            </h1>
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Browse our premium collection of car frames and place your order in just a few taps. Fast, reliable, and secure.
-            </p>
-          </div>
+    <>
+      {/* Category Circles Section */}
+      <CategoryCircles />
+      
+      {/* Hero/Stats Section */}
+      <HeroStats />
+      
+      {/* Main Hero Content */}
+      <section className="bg-grommetBg py-12 sm:py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-8 sm:space-y-10">
+              <div className="space-y-4 sm:space-y-6 text-center">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight tracking-tight">
+                  Order Car Frames Easily
+                </h1>
+                <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                  Browse our premium collection of car frames and place your order in just a few taps. Fast, reliable, and secure.
+                </p>
+              </div>
 
-          {/* Auto-Rotating Hero Images */}
-          <div className="flex justify-center">
-            <div className="relative bg-white rounded-2xl aspect-square overflow-hidden shadow-lg w-full max-w-sm flex items-center justify-center">
-              {isLoading ? (
-                <div className="text-slate-500 text-sm">Loading highlights...</div>
-              ) : heroImages.length === 0 ? (
-                <div className="text-slate-500 text-sm">No featured items yet.</div>
-              ) : (
-                heroImages.map((imageUrl, index) => (
-                  <div
-                    key={`${imageUrl}-${index}`}
-                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${
-                      index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
-                    <Image
-                      src={imageUrl}
-                      alt={`Featured product ${index + 1}`}
-                      fill
-                      sizes="(max-width: 640px) 90vw, 400px"
-                      className="object-cover object-center"
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+              {/* Auto-Rotating Hero Images */}
+              <div className="flex justify-center">
+                <div className="relative bg-white rounded-2xl aspect-square overflow-hidden shadow-lg w-full max-w-sm flex items-center justify-center">
+                  {isLoading ? (
+                    <div className="text-slate-500 text-sm">Loading highlights...</div>
+                  ) : heroImages.length === 0 ? (
+                    <div className="text-slate-500 text-sm">No featured items yet.</div>
+                  ) : (
+                    heroImages.map((imageUrl, index) => (
+                      <div
+                        key={`${imageUrl}-${index}`}
+                        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ease-in-out ${
+                          index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      >
+                        <Image
+                          src={imageUrl}
+                          alt={`Featured product ${index + 1}`}
+                          fill
+                          sizes="(max-width: 640px) 90vw, 400px"
+                          className="object-cover object-center"
+                        />
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
 
-          {/* CTA Button */}
-          <div className="flex flex-col items-center gap-6">
-            <Link
-              href="/items"
-              className="w-full sm:w-auto px-8 py-4 sm:py-5 bg-slate-900 hover:bg-slate-800 text-white text-lg sm:text-xl font-bold rounded-xl transition duration-200 shadow-lg hover:shadow-xl active:scale-95 text-center"
-            >
-              Shop Now
-            </Link>
+              {/* CTA Button */}
+              <div className="flex flex-col items-center gap-6">
+                <Link
+                  href="/items"
+                  className="w-full sm:w-auto px-8 py-4 sm:py-5 bg-slate-900 hover:bg-slate-800 text-white text-lg sm:text-xl font-bold rounded-xl transition duration-200 shadow-lg hover:shadow-xl active:scale-95 text-center"
+                >
+                  Shop Now
+                </Link>
 
-            {/* Trust Badges */}
-            <div className="text-sm text-slate-600 text-center space-y-2">
-              <p className="font-medium">✓ Premium Quality | ✓ Fast Delivery | ✓ Secure Checkout</p>
+                {/* Trust Badges */}
+                <div className="text-sm text-slate-600 text-center space-y-2">
+                  <p className="font-medium">✓ Premium Quality | ✓ Fast Delivery | ✓ Secure Checkout</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </section>
+    </>
   );
 }
