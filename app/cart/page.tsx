@@ -4,8 +4,10 @@ import { useCart } from '@/src/context/CartContext';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
+  const router = useRouter();
   const { items, updateQuantity, totalAmount, clearCart } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [customerName, setCustomerName] = useState('');
@@ -230,11 +232,18 @@ export default function CartPage() {
           {/* Action Buttons */}
           <div className="space-y-3 border-t border-slate-200 pt-6">
             <button
+              onClick={() => router.push('/checkout')}
+              className="w-full px-8 py-4 sm:py-5 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-lg font-bold rounded-xl transition duration-200 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+            >
+              <span>💬</span>
+              Secure Checkout
+            </button>
+            <button
               onClick={handleCheckout}
               disabled={isCheckingOut}
-              className="w-full px-8 py-4 sm:py-5 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white text-lg font-bold rounded-xl transition duration-200 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-md"
+              className="w-full px-8 py-4 sm:py-5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white text-lg font-bold rounded-xl transition duration-200 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-md"
             >
-              {isCheckingOut ? 'Opening WhatsApp...' : 'Proceed to WhatsApp'}
+              {isCheckingOut ? 'Opening WhatsApp...' : 'Quick Checkout (WhatsApp)'}
             </button>
             <div className="grid grid-cols-2 gap-3">
               <Link
