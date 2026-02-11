@@ -196,7 +196,16 @@ export default function CheckoutPage() {
       clearCart();
 
       if (data.whatsappLink) {
-        window.open(data.whatsappLink, '_blank');
+        const isMobile = /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(
+          navigator.userAgent
+        );
+
+        if (isMobile) {
+          window.location.href = data.whatsappLink;
+        } else {
+          window.open(data.whatsappLink, '_blank', 'noopener,noreferrer');
+        }
+
         router.push('/my-orders');
       }
     } catch (err) {
