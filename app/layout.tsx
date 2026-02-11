@@ -43,7 +43,7 @@ export default function RootLayout({
           </main>
           
           {/* Footer */}
-          <footer className="border-t border-slate-200 bg-white mt-12">
+          <footer className="border-t border-slate-200 bg-[#FEF7EF] mt-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">
                 <div>
@@ -81,8 +81,15 @@ export default function RootLayout({
                   </div>
                 </div>
               </div>
-              <div className="border-t border-slate-300 pt-4 text-center text-sm text-slate-600">
-                © 2026 Grommet. Currently in testing phase.
+              
+              {/* Trust Badges */}
+              <div className="border-t border-slate-300 pt-6 pb-4 text-center">
+                <p className="text-sm font-medium text-slate-700 mb-4">
+                  ✓ Premium Quality | ✓ Fast Delivery | ✓ Secure Checkout
+                </p>
+                <p className="text-sm text-slate-600">
+                  © 2026 Grommet. Currently in testing phase.
+                </p>
               </div>
             </div>
           </footer>

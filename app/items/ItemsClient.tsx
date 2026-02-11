@@ -110,7 +110,7 @@ export default function ItemsClient() {
   }, [allProducts, selectedCategory, search]);
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
+    <main className="min-h-[calc(100vh-64px)] bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-7xl mx-auto">
         {/* Page Header */}
         <div className="mb-8">
@@ -134,7 +134,7 @@ export default function ItemsClient() {
         </div>
 
         {isLoading ? (
-          <div className="rounded-xl border border-slate-200 bg-white p-8 text-slate-700 shadow-sm text-center">
+          <div className="rounded-xl border border-slate-200 bg-[#FEF7EF] p-8 text-slate-700 shadow-sm text-center">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-slate-900 mb-4"></div>
             <p>Loading products...</p>
           </div>
@@ -143,7 +143,7 @@ export default function ItemsClient() {
             <p className="font-medium">Unable to load products. Please try again shortly.</p>
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="rounded-xl border border-slate-200 bg-white p-12 text-slate-700 shadow-sm text-center">
+          <div className="rounded-xl border border-slate-200 bg-[#FEF7EF] p-12 text-slate-700 shadow-sm text-center">
             <p className="text-xl sm:text-2xl font-semibold">
               {search.trim() ? 'No products found' : 'New Drop Coming Soon 🚀'}
             </p>

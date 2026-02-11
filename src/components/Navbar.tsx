@@ -11,7 +11,6 @@ export default function Navbar() {
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Menu items in the exact order specified
@@ -61,10 +60,10 @@ export default function Navbar() {
   return (
     <>
       {/* Main Header - Sticky */}
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-40 bg-[#FEF7EF] border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Left: Hamburger (mobile) + Search */}
+            {/* Left: Hamburger (mobile) */}
             <div className="flex items-center gap-2 flex-1">
               {/* Hamburger Menu - Mobile Only */}
               <button
@@ -87,52 +86,6 @@ export default function Navbar() {
                   />
                 </svg>
               </button>
-
-              {/* Search Button/Input */}
-              <div className="flex items-center">
-                <button
-                  onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition md:hidden"
-                  aria-label="Search"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </button>
-
-                {/* Desktop Search */}
-                <div className="hidden md:flex items-center bg-slate-100 rounded-lg px-4 py-2 w-64">
-                  <svg
-                    className="w-5 h-5 text-slate-400 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="bg-transparent outline-none text-slate-700 text-sm placeholder-slate-500 w-full"
-                    aria-label="Search products"
-                  />
-                </div>
-              </div>
             </div>
 
             {/* Center: Logo */}
@@ -196,7 +149,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Category Navigation */}
-        <div className="hidden md:block border-t border-slate-200 bg-white">
+        <div className="hidden md:block border-t border-slate-200 bg-[#FEF7EF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav className="flex items-center justify-center gap-8 py-3">
               {menuItems.map((item) => {
@@ -224,45 +177,17 @@ export default function Navbar() {
             </nav>
           </div>
         </div>
-
-        {/* Mobile Search Bar (when opened) */}
-        {isSearchOpen && (
-          <div className="md:hidden border-t border-slate-200 p-4 bg-slate-50">
-            <div className="flex items-center bg-white rounded-lg px-4 py-2 border border-slate-200">
-              <svg
-                className="w-5 h-5 text-slate-400 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="bg-transparent outline-none text-slate-700 text-sm placeholder-slate-500 w-full"
-                aria-label="Search products"
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
       </header>
 
       {/* Mobile Menu - Full Screen */}
       <div
         ref={mobileMenuRef}
-        className={`fixed inset-0 w-screen h-screen bg-white z-50 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 w-screen h-screen bg-[#FEF7EF] z-50 md:hidden overflow-y-auto transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Close Button - Top Right */}
-        <div className="flex justify-end items-center p-4 border-b border-slate-200 bg-white">
+        <div className="flex justify-end items-center p-4 border-b border-slate-200 bg-[#FEF7EF]">
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="p-2 text-slate-900 hover:bg-slate-100 rounded-lg transition"
@@ -285,7 +210,7 @@ export default function Navbar() {
         </div>
 
         {/* Menu Items */}
-        <nav className="py-2 bg-white">
+        <nav className="py-2 bg-[#FEF7EF]">
           {menuItems.map((item) => {
             const active = isActive(item.href);
             return (
@@ -310,7 +235,7 @@ export default function Navbar() {
           <Link
             href="/my-orders"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="block w-full px-4 py-3 text-base font-semibold text-slate-900 bg-white border border-slate-200 hover:bg-slate-100 rounded-lg transition text-center"
+            className="block w-full px-4 py-3 text-base font-semibold text-slate-900 bg-[#FEF7EF] border border-slate-200 hover:bg-slate-100 rounded-lg transition text-center"
           >
             My Orders
           </Link>

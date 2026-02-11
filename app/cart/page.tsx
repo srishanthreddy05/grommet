@@ -87,12 +87,12 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
+      <main className="min-h-[calc(100vh-64px)] bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">Your Cart</h1>
 
           {/* Empty Cart Message */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8 sm:p-12 text-center space-y-6">
+          <div className="bg-[#FEF7EF] rounded-2xl border border-slate-200 shadow-lg p-8 sm:p-12 text-center space-y-6">
             <div className="text-7xl sm:text-8xl">🛒</div>
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
@@ -115,7 +115,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
+    <main className="min-h-[calc(100vh-64px)] bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-8">Your Cart</h1>
 
@@ -124,7 +124,7 @@ export default function CartPage() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200 p-5 sm:p-6"
+              className="bg-[#FEF7EF] rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200 p-5 sm:p-6"
             >
               <div className="flex gap-4 sm:gap-6">
                 {/* Item Image */}
@@ -184,7 +184,7 @@ export default function CartPage() {
         </div>
 
         {/* Cart Summary */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-6 sm:p-8 space-y-6 sticky bottom-0">
+        <div className="bg-[#FEF7EF] rounded-2xl border border-slate-200 shadow-lg p-6 sm:p-8 space-y-6 sticky bottom-0">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-slate-700 font-medium">Subtotal:</span>
@@ -207,7 +207,7 @@ export default function CartPage() {
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-[#FEF7EF] text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
               />
             </div>
             <div>
@@ -219,7 +219,7 @@ export default function CartPage() {
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
                 placeholder="10-digit number"
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-[#FEF7EF] text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
               />
             </div>
             {formError && (

@@ -67,7 +67,7 @@ export default function CategoryCircles() {
               href={category.href}
               className="flex flex-col items-center group"
             >
-              <div className="w-20 h-20 rounded-full bg-white border-2 border-slate-200 overflow-hidden mb-3 group-hover:border-orange-500 transition-all duration-300 group-hover:shadow-lg">
+              <div className="w-20 h-20 rounded-full bg-[#FEF7EF] border-2 border-slate-200 overflow-hidden mb-3 group-hover:border-orange-500 transition-all duration-300 group-hover:shadow-lg">
                 <div className="w-full h-full bg-slate-200 flex items-center justify-center">
                   <span className="text-2xl">🏎️</span>
                 </div>
@@ -88,7 +88,7 @@ export default function CategoryCircles() {
                 href={category.href}
                 className="flex flex-col items-center group flex-shrink-0"
               >
-                <div className="w-16 h-16 rounded-full bg-white border-2 border-slate-200 overflow-hidden mb-2 group-active:border-orange-500 transition-all duration-300">
+                <div className="w-16 h-16 rounded-full bg-[#FEF7EF] border-2 border-slate-200 overflow-hidden mb-2 group-active:border-orange-500 transition-all duration-300">
                   <div className="w-full h-full bg-slate-200 flex items-center justify-center">
                     <span className="text-xl">🏎️</span>
                   </div>

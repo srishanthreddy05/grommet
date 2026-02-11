@@ -11,11 +11,14 @@ import { database } from '@/src/lib/firebase';
 type ProductRecord = {
   name: string;
   price: number;
+  mrp?: number;
   stock: number;
   description?: string;
   displayImage: string;
   album?: string[];
   enabled: boolean;
+  brand?: string;
+  category?: string;
 };
 
 type Product = ProductRecord & { id: string };
@@ -28,6 +31,7 @@ export default function ProductDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
   const productId = useMemo(() => {
     const idParam = params.id;
@@ -106,8 +110,8 @@ export default function ProductDetailPage() {
 
   if (!isLoading && !product && !hasError) {
     return (
-      <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="text-center">
+      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="text-center bg-[#FEF7EF] rounded-2xl shadow-lg p-12 border border-slate-200">
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Product Not Found</h1>
           <Link href="/items" className="text-slate-600 hover:text-slate-900 underline font-medium">
             ← Back to Collections
@@ -134,8 +138,8 @@ export default function ProductDetailPage() {
 
   if (hasError) {
     return (
-      <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="text-center">
+      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="text-center bg-[#FEF7EF] rounded-2xl shadow-lg p-12 border border-slate-200">
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Unable to Load Product</h1>
           <p className="text-slate-600 mb-6">Please try again in a moment.</p>
           <Link href="/items" className="text-slate-600 hover:text-slate-900 underline font-medium">
@@ -148,8 +152,8 @@ export default function ProductDetailPage() {
 
   if (isLoading || !product) {
     return (
-      <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="rounded-xl border border-slate-200 bg-white p-8 text-slate-700 shadow-sm">
+      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="rounded-2xl bg-[#FEF7EF] p-12 text-slate-700 shadow-lg text-center border border-slate-200">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-slate-900 mb-4"></div>
           <p>Loading product...</p>
         </div>
@@ -160,14 +164,23 @@ export default function ProductDetailPage() {
   const isOutOfStock = product.stock <= 0 || product.enabled === false;
   const currentImage = imageList[currentImageIndex];
   const hasMultipleImages = imageList.length > 1;
+  
+  const hasDiscount = product.mrp && product.mrp > product.price;
+  const discountPercent = hasDiscount
+    ? Math.round(((product.mrp! - product.price) / product.mrp!) * 100)
+    : 0;
+
+  const toggleAccordion = (section: string) => {
+    setOpenAccordion(openAccordion === section ? null : section);
+  };
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
+    <main className="min-h-screen bg-[#FEF7EF] py-8 sm:py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <Link
           href="/items"
-          className="inline-flex items-center text-slate-600 hover:text-slate-900 mb-8 transition font-medium"
+          className="inline-flex items-center text-slate-700 hover:text-slate-900 mb-6 transition font-medium"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -185,153 +198,243 @@ export default function ProductDetailPage() {
           Back to Collections
         </Link>
 
-        {/* Product Details */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 p-6 sm:p-8 lg:p-10">
-            {/* Image Section with Slider */}
-            <div>
-              <div className="relative w-full aspect-square bg-slate-100 rounded-xl overflow-hidden group">
-                <Image
-                  src={currentImage}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-300"
-                  priority
-                />
+        {/* Product Grid */}
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          {/* Image Section */}
+          <div>
+            {/* Main Image */}
+            <div className="relative w-full aspect-square bg-[#FEF7EF] rounded-2xl overflow-hidden shadow-lg mb-4 border border-slate-200">
+              <Image
+                src={currentImage}
+                alt={product.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+            </div>
 
-                {/* Image Counter */}
-                {hasMultipleImages && (
-                  <div className="absolute top-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {currentImageIndex + 1} / {imageList.length}
-                  </div>
-                )}
+            {/* Thumbnail Images */}
+            {hasMultipleImages && (
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {imageList.map((imageUrl, index) => (
+                  <button
+                    key={`${imageUrl}-${index}`}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`relative aspect-square w-20 sm:w-24 flex-shrink-0 overflow-hidden rounded-lg transition ${
+                      index === currentImageIndex
+                        ? 'ring-2 ring-slate-900 ring-offset-2'
+                        : 'ring-1 ring-slate-200 hover:ring-slate-400'
+                    }`}
+                  >
+                    <Image
+                      src={imageUrl}
+                      alt={`${product.name} view ${index + 1}`}
+                      fill
+                      sizes="96px"
+                      className="object-cover bg-[#FEF7EF]"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
-                {/* Navigation Arrows */}
-                {hasMultipleImages && (
+          {/* Product Details Section */}
+          <div className="flex flex-col">
+            {/* Brand */}
+            {product.brand && (
+              <p className="text-xs uppercase tracking-widest text-slate-600 font-semibold mb-3">
+                {product.brand}
+              </p>
+            )}
+
+            {/* Product Title */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">
+              {product.name}
+            </h1>
+
+            {/* Price Section */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl sm:text-4xl font-bold text-slate-900">
+                  ₹{product.price}
+                </span>
+                {hasDiscount && (
                   <>
-                    <button
-                      onClick={handlePrevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-900 rounded-full p-2 transition duration-200 opacity-0 group-hover:opacity-100"
-                      aria-label="Previous image"
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 19l-7-7 7-7"
-                        />
-                      </svg>
-                    </button>
-
-                    <button
-                      onClick={handleNextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-900 rounded-full p-2 transition duration-200 opacity-0 group-hover:opacity-100"
-                      aria-label="Next image"
-                    >
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
+                    <span className="text-xl text-slate-400 line-through">
+                      ₹{product.mrp}
+                    </span>
+                    <span className="bg-yellow-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">
+                      SALE
+                    </span>
                   </>
                 )}
               </div>
-
-              {/* Image Thumbnails */}
-              {hasMultipleImages && (
-                <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-                  {imageList.map((imageUrl, index) => (
-                    <button
-                      key={`${imageUrl}-${index}`}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`relative aspect-square w-16 sm:w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 transition ${
-                        index === currentImageIndex
-                          ? 'border-slate-900'
-                          : 'border-slate-200 hover:border-slate-400'
-                      }`}
-                      aria-label={`View image ${index + 1}`}
-                    >
-                      <Image
-                        src={imageUrl}
-                        alt={`${product.name} view ${index + 1}`}
-                        fill
-                        sizes="80px"
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
+              {hasDiscount && (
+                <p className="text-sm text-emerald-600 font-medium">
+                  Save {discountPercent}% on this item
+                </p>
               )}
             </div>
 
-            {/* Product Info Section */}
-            <div className="flex flex-col">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
-                {product.name}
-              </h1>
-
-              <div className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
-                ₹{product.price}
-              </div>
-
-              {/* Stock Status */}
-              {isOutOfStock ? (
-                <div className="mb-6 inline-flex items-center rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-700 w-fit">
-                  Out of Stock
-                </div>
-              ) : (
-                <div className="mb-6 inline-flex items-center rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700 w-fit">
-                  In Stock ({product.stock} available)
-                </div>
-              )}
-
-              {/* Description */}
-              <p className="text-slate-600 mb-8 leading-relaxed text-base sm:text-lg">
-                {product.description || 'No description available for this product.'}
+            {/* Stock Status */}
+            {!isOutOfStock && (
+              <p className="text-sm text-slate-600 mb-6">
+                In Stock • {product.stock} available
               </p>
+            )}
 
-              {/* Action Buttons */}
-              <div className="mt-auto space-y-3">
+            {/* Description */}
+            {product.description && (
+              <p className="text-slate-700 mb-8 leading-relaxed">
+                {product.description}
+              </p>
+            )}
+
+            {/* Action Buttons */}
+            <div className="space-y-3 mb-8">
+              <button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                className={`w-full py-4 px-6 rounded-lg font-semibold transition duration-200 ${
+                  isOutOfStock
+                    ? 'border-2 border-slate-300 text-slate-400 cursor-not-allowed'
+                    : added
+                      ? 'border-2 border-green-600 text-green-600 bg-green-50'
+                      : 'border-2 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white'
+                }`}
+              >
+                {isOutOfStock
+                  ? 'Out of Stock'
+                  : added
+                    ? '✓ Added to Cart'
+                    : 'Add to Cart'}
+              </button>
+
+              <button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                className={`w-full py-4 px-6 rounded-lg font-semibold transition duration-200 ${
+                  isOutOfStock
+                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                    : 'bg-amber-900 text-white hover:bg-amber-950 shadow-md'
+                }`}
+              >
+                Buy Now
+              </button>
+            </div>
+
+            {/* Accordion Section */}
+            <div className="border-t border-slate-200 pt-6 space-y-4">
+              {/* Product Details Accordion */}
+              <div className="border-b border-slate-200">
                 <button
-                  onClick={handleAddToCart}
-                  disabled={isOutOfStock}
-                  className={`w-full py-4 px-6 rounded-xl font-bold text-white text-lg transition duration-200 shadow-md ${
-                    isOutOfStock
-                      ? 'bg-slate-300 cursor-not-allowed'
-                      : added
-                        ? 'bg-green-600 hover:bg-green-700 active:scale-95'
-                        : 'bg-slate-900 hover:bg-slate-800 active:scale-95'
+                  onClick={() => toggleAccordion('details')}
+                  className="w-full flex items-center justify-between py-4 text-left"
+                >
+                  <span className="font-semibold text-slate-900">Product Details</span>
+                  <svg
+                    className={`w-5 h-5 text-slate-600 transition-transform ${
+                      openAccordion === 'details' ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openAccordion === 'details' ? 'max-h-96 pb-4' : 'max-h-0'
                   }`}
                 >
-                  {isOutOfStock
-                    ? 'Out of Stock'
-                    : added
-                      ? '✓ Added to Cart!'
-                      : 'Add to Cart'}
-                </button>
+                  <div className="text-slate-600 space-y-2">
+                    <p><strong>Product ID:</strong> {product.id}</p>
+                    {product.category && <p><strong>Category:</strong> {product.category}</p>}
+                    <p><strong>Availability:</strong> {isOutOfStock ? 'Out of Stock' : `${product.stock} in stock`}</p>
+                  </div>
+                </div>
+              </div>
 
-                <Link
-                  href="/cart"
-                  className="block w-full py-4 px-6 rounded-xl font-bold text-slate-900 bg-slate-100 hover:bg-slate-200 transition duration-200 text-center"
+              {/* Shipping Accordion */}
+              <div className="border-b border-slate-200">
+                <button
+                  onClick={() => toggleAccordion('shipping')}
+                  className="w-full flex items-center justify-between py-4 text-left"
                 >
-                  Go to Cart
-                </Link>
+                  <span className="font-semibold text-slate-900">Shipping & Returns</span>
+                  <svg
+                    className={`w-5 h-5 text-slate-600 transition-transform ${
+                      openAccordion === 'shipping' ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openAccordion === 'shipping' ? 'max-h-96 pb-4' : 'max-h-0'
+                  }`}
+                >
+                  <div className="text-slate-600 space-y-2">
+                    <p>• Free shipping on orders over ₹999</p>
+                    <p>• Estimated delivery: 3-5 business days</p>
+                    <p>• 30-day return policy</p>
+                    <p>• Free returns on all orders</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Care Instructions Accordion */}
+              <div className="border-b border-slate-200">
+                <button
+                  onClick={() => toggleAccordion('care')}
+                  className="w-full flex items-center justify-between py-4 text-left"
+                >
+                  <span className="font-semibold text-slate-900">Care Instructions</span>
+                  <svg
+                    className={`w-5 h-5 text-slate-600 transition-transform ${
+                      openAccordion === 'care' ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openAccordion === 'care' ? 'max-h-96 pb-4' : 'max-h-0'
+                  }`}
+                >
+                  <div className="text-slate-600 space-y-2">
+                    <p>• Handle with care to avoid damage</p>
+                    <p>• Clean with a soft, dry cloth</p>
+                    <p>• Store in a cool, dry place</p>
+                    <p>• Avoid exposure to direct sunlight</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
