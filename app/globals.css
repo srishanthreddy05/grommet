@@ -2,7 +2,7 @@
 
 :root {
   --background: #fef7ef;
-  --foreground: #171717;
+  --foreground: #374151;
   --nav-height: 64px;
   --footer-height: 48px;
 }
@@ -10,14 +10,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #fef7ef;
-    --foreground: #171717;
+    --foreground: #374151;
   }
 }
 
@@ -34,10 +34,52 @@ html[data-scroll-behavior="smooth"] {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+@layer base {
+  h1 {
+    @apply font-serif text-4xl md:text-5xl text-[#111827];
+  }
+  h2 {
+    @apply font-serif text-3xl md:text-4xl text-[#111827];
+  }
+  h3 {
+    @apply font-serif text-xl md:text-2xl text-[#111827];
+  }
+  p,
+  li,
+  span,
+  label,
+  input,
+  textarea {
+    @apply text-base text-[#374151];
+  }
+}
+
+@layer utilities {
+  .text-slate-900 {
+    color: #111827;
+  }
+  .text-slate-700,
+  .text-slate-600 {
+    color: #374151;
+  }
+  .bg-slate-900 {
+    background-color: #8b5e3c;
+  }
+  .hover\:bg-slate-800:hover {
+    background-color: #6f4b2e;
+  }
+  .text-red-600 {
+    color: #991b1b;
+  }
+  .bg-red-600 {
+    background-color: #991b1b;
+  }
 }
 
 /* Hide scrollbar for horizontal scroll sections */

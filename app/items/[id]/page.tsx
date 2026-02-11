@@ -312,17 +312,17 @@ export default function ProductDetailPage() {
                     : 'Add to Cart'}
               </button>
 
-              <button
-                onClick={handleAddToCart}
-                disabled={isOutOfStock}
-                className={`w-full py-4 px-6 rounded-lg font-semibold transition duration-200 ${
+              <Link
+                href="/cart"
+                className={`block w-full py-4 px-6 rounded-lg font-semibold transition duration-200 text-center ${
                   isOutOfStock
                     ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
                     : 'bg-amber-900 text-white hover:bg-amber-950 shadow-md'
                 }`}
+                aria-disabled={isOutOfStock}
               >
-                Buy Now
-              </button>
+                View Cart
+              </Link>
             </div>
 
             {/* Accordion Section */}
