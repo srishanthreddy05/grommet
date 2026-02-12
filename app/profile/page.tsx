@@ -27,15 +27,15 @@ export default function ProfilePage() {
           const ordersRef = ref(database, 'orders');
           const snapshot = await get(ordersRef);
           if (snapshot.exists()) {
-            const allOrders = snapshot.val();
+            const allOrders = snapshot.val() as Record<string, any>;
             // Filter by either userId (uid) or email
             const userOrders = Object.entries(allOrders)
-              .filter(([_, order]: any) => 
+              .filter(([_, order]: [string, any]) => 
                 order.userId === currentUser.uid || 
                 order.userEmail === currentUser.email ||
                 order.email === currentUser.email
               )
-              .map(([id, order]) => ({ id, ...order }))
+              .map(([id, order]: [string, any]) => ({ id, ...order }))
               .sort((a: any, b: any) => (b.createdAt || 0) - (a.createdAt || 0));
             setOrders(userOrders);
             console.log('User orders loaded:', userOrders);

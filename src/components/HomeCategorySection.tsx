@@ -99,23 +99,7 @@ export default function HomeCategorySection({
   }
 
   if (products.length === 0) {
-    return (
-      <section style={{ backgroundColor: bgColor }} className="py-8 px-4">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
-              {categoryTitle}
-            </h2>
-            <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
-          </div>
-          <div className="text-center py-12">
-            <p className="text-lg font-semibold text-slate-700">
-              New Drop Coming Soon 🚀
-            </p>
-          </div>
-        </div>
-      </section>
-    );
+    return null; // Don't show categories with no products
   }
 
   return (
