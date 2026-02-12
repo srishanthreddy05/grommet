@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { auth, database } from '@/src/lib/firebase';
 import { 
   onAuthStateChanged, 
@@ -16,15 +17,38 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
 
   useEffect(() => {
-    // Listen to auth state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        try {
+          const ordersRef = ref(database, 'orders');
+          const snapshot = await get(ordersRef);
+          if (snapshot.exists()) {
+            const allOrders = snapshot.val();
+            // Filter by either userId (uid) or email
+            const userOrders = Object.entries(allOrders)
+              .filter(([_, order]: any) => 
+                order.userId === currentUser.uid || 
+                order.userEmail === currentUser.email ||
+                order.email === currentUser.email
+              )
+              .map(([id, order]) => ({ id, ...order }))
+              .sort((a: any, b: any) => (b.createdAt || 0) - (a.createdAt || 0));
+            setOrders(userOrders);
+            console.log('User orders loaded:', userOrders);
+          } else {
+            console.log('No orders found in database');
+          }
+        } catch (err) {
+          console.error('Failed to load orders:', err);
+        }
+      }
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -58,8 +82,6 @@ export default function ProfilePage() {
   const createOrUpdateUser = async (user: User) => {
     try {
       const userRef = ref(database, `users/${user.uid}`);
-      
-      // Check if user already exists
       const snapshot = await get(userRef);
       const existingUser = snapshot.val();
 
@@ -72,7 +94,6 @@ export default function ProfilePage() {
         lastLoginAt: serverTimestamp(),
       };
 
-      // Only set createdAt if user doesn't exist (idempotent)
       if (!existingUser) {
         userData.createdAt = serverTimestamp();
       }
@@ -98,25 +119,25 @@ export default function ProfilePage() {
     }
   };
 
-  // Loading state while checking auth
+  // Loading state
   if (loading) {
     return (
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4">
+      <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF] flex items-center justify-center px-4">
         <div className="text-center space-y-4">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
           <p className="text-slate-600 font-medium">Loading...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   // Not logged in - show login button
   if (!user) {
     return (
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
-        <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
+      <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
+        <div className="py-8 px-4 space-y-6">
           <div className="text-center">
-            <div className="mx-auto w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
               <svg
                 className="w-8 h-8 text-white"
                 fill="none"
@@ -131,8 +152,8 @@ export default function ProfilePage() {
                 />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Profile</h1>
-            <p className="text-slate-600">Please login to view your profile</p>
+            <h1 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>Profile</h1>
+            <p className="text-sm text-gray-500">Login to view your profile</p>
           </div>
 
           {error && (
@@ -144,16 +165,16 @@ export default function ProfilePage() {
           <button
             onClick={handleGoogleLogin}
             disabled={authLoading}
-            className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white font-bold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3"
+            className="w-full bg-black hover:bg-slate-800 disabled:bg-slate-400 text-white font-bold py-3 px-6 rounded-full transition duration-200 flex items-center justify-center gap-2 text-sm"
           >
             {authLoading ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
                 Signing in...
               </>
             ) : (
               <>
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -176,84 +197,140 @@ export default function ProfilePage() {
             )}
           </button>
         </div>
-      </main>
+      </div>
     );
   }
 
-  // Logged in - show user profile
+  // Logged in - show user profile and orders
   return (
-    <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
-      <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-slate-900 mb-6">Your Profile</h1>
-          
+    <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
+      {/* User Profile Section */}
+      <section className="py-8 px-4 bg-white">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>Your Profile</h1>
+            <p className="text-sm text-gray-500">View your account details</p>
+          </div>
+
           {/* Profile Photo */}
-          <div className="mx-auto w-28 h-28 rounded-full overflow-hidden bg-slate-200 mb-6 border-4 border-slate-100">
-            {user.photoURL ? (
-              <img 
-                src={user.photoURL} 
-                alt={user.displayName || 'Profile'} 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-slate-300">
-                <svg
-                  className="w-12 h-12 text-slate-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* User Info */}
-        <div className="space-y-4">
-          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-            <p className="text-sm text-slate-600 mb-1 font-medium">Name</p>
-            <p className="text-lg font-bold text-slate-900">
-              {user.displayName || 'Not provided'}
-            </p>
+          <div className="flex justify-center">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-200 border-4 border-white shadow-md">
+              {user.photoURL ? (
+                <img 
+                  src={user.photoURL} 
+                  alt={user.displayName || 'Profile'} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-slate-300">
+                  <svg
+                    className="w-10 h-10 text-slate-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-            <p className="text-sm text-slate-600 mb-1 font-medium">Email</p>
-            <p className="text-lg font-bold text-slate-900 break-all">
-              {user.email || 'Not provided'}
-            </p>
-          </div>
-        </div>
+          {/* User Info */}
+          <div className="space-y-3">
+            <div>
+              <p className="text-xs text-gray-500 font-medium mb-1">Name</p>
+              <p className="text-sm font-semibold text-slate-900">
+                {user.displayName || 'Not provided'}
+              </p>
+            </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-sm text-red-800">{error}</p>
+            <div>
+              <p className="text-xs text-gray-500 font-medium mb-1">Email</p>
+              <p className="text-sm font-semibold text-slate-900 break-all">
+                {user.email || 'Not provided'}
+              </p>
+            </div>
           </div>
-        )}
 
-        {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          disabled={authLoading}
-          className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-4 px-6 rounded-xl transition duration-200"
-        >
-          {authLoading ? (
-            <span className="flex items-center justify-center gap-2">
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
-              Logging out...
-            </span>
-          ) : (
-            'Logout'
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-xs text-red-800">{error}</p>
+            </div>
           )}
-        </button>
-      </div>
-    </main>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            disabled={authLoading}
+            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-2 px-4 rounded-full transition duration-200 text-sm"
+          >
+            {authLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                Logging out...
+              </span>
+            ) : (
+              'Logout'
+            )}
+          </button>
+        </div>
+      </section>
+
+      {/* My Orders Section */}
+      <section className="py-8 px-4 bg-[#FEF7EF]">
+        <div className="space-y-6">
+          {/* Header */}
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>My Orders</h2>
+            <p className="text-sm text-gray-500">Your recent purchases</p>
+          </div>
+
+          {/* Orders List */}
+          {orders.length === 0 ? (
+            <div className="text-center py-8">
+              <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <p className="text-sm text-gray-500 font-medium">No orders yet</p>
+              <Link href="/" className="text-xs text-orange-600 hover:text-orange-700 font-semibold mt-2 inline-block">
+                Start Shopping →
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {orders.map((order) => (
+                <div key={order.id} className="bg-white rounded-lg shadow-sm p-4 border border-slate-100">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <p className="text-xs text-gray-500 font-medium">Order ID</p>
+                      <p className="text-sm font-semibold text-slate-900">{order.id.slice(0, 8)}</p>
+                    </div>
+                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-50 text-green-700">
+                      {order.status || 'Pending'}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-500">
+                      {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'Date unavailable'}
+                    </span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      ₹{order.totalAmount || 0}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

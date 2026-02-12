@@ -238,24 +238,6 @@ export default function Navbar() {
             );
           })}
         </nav>
-
-        {/* Bottom Profile Section */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-slate-200 bg-slate-50 p-4 space-y-3">
-          <Link
-            href="/my-orders"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block w-full px-4 py-3 text-base font-semibold text-slate-900 bg-[#FEF7EF] border border-slate-200 hover:bg-slate-100 rounded-lg transition text-center"
-          >
-            My Orders
-          </Link>
-          <Link
-            href="/profile"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="block w-full px-4 py-3 text-base font-semibold !text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition text-center"
-          >
-            My Profile
-          </Link>
-        </div>
       </div>
     </>
   );

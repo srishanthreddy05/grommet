@@ -4,59 +4,60 @@ import HomeCategorySection from '@/src/components/HomeCategorySection';
 
 export default function HomePage() {
   return (
-    <>
+    <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
       <HomeCategorySection 
         categorySlug="car-frames" 
-        categoryTitle="Car Frames" 
+        categoryTitle="Car Frames"
+        bgColor="white"
       />
       
-      <div className="bg-slate-50">
-        <HomeCategorySection 
-          categorySlug="car-poster-frames" 
-          categoryTitle="Car Poster Frames" 
-        />
-      </div>
+      <HomeCategorySection 
+        categorySlug="car-poster-frames" 
+        categoryTitle="Car Poster Frames"
+        bgColor="#FEF7EF"
+      />
       
       <HomeCategorySection 
         categorySlug="hotwheels" 
-        categoryTitle="Hotwheels" 
+        categoryTitle="Hotwheels"
+        bgColor="white"
       />
       
-      <div className="bg-slate-50">
-        <HomeCategorySection 
-          categorySlug="hotwheel-bouquets" 
-          categoryTitle="Hotwheel Bouquets" 
-        />
-      </div>
+      <HomeCategorySection 
+        categorySlug="hotwheel-bouquets" 
+        categoryTitle="Hotwheel Bouquets"
+        bgColor="#FEF7EF"
+      />
       
       <HomeCategorySection 
         categorySlug="keychains" 
-        categoryTitle="Keychains" 
+        categoryTitle="Keychains"
+        bgColor="white"
       />
       
-      <div className="bg-slate-50">
-        <HomeCategorySection 
-          categorySlug="phone-cases" 
-          categoryTitle="Phone Cases" 
-        />
-      </div>
+      <HomeCategorySection 
+        categorySlug="phone-cases" 
+        categoryTitle="Phone Cases"
+        bgColor="#FEF7EF"
+      />
       
       <HomeCategorySection 
         categorySlug="posters" 
-        categoryTitle="Posters" 
+        categoryTitle="Posters"
+        bgColor="white"
       />
       
-      <div className="bg-slate-50">
-        <HomeCategorySection 
-          categorySlug="t-shirts" 
-          categoryTitle="T-Shirts" 
-        />
-      </div>
+      <HomeCategorySection 
+        categorySlug="t-shirts" 
+        categoryTitle="T-Shirts"
+        bgColor="#FEF7EF"
+      />
       
       <HomeCategorySection 
         categorySlug="valentine-gifts" 
-        categoryTitle="Valentine Gifts" 
+        categoryTitle="Valentine Gifts"
+        bgColor="white"
       />
-    </>
+    </div>
   );
 }
