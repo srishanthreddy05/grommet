@@ -31,7 +31,6 @@ export default function ProductDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
 
   const productId = useMemo(() => {
     const idParam = params.id;
@@ -110,11 +109,23 @@ export default function ProductDetailPage() {
 
   if (!isLoading && !product && !hasError) {
     return (
-      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="text-center bg-[#FEF7EF] rounded-2xl shadow-lg p-12 border border-slate-200">
-          <h1 className="text-3xl font-bold text-slate-900 mb-4">Product Not Found</h1>
-          <Link href="/items" className="text-slate-600 hover:text-slate-900 underline font-medium">
-            ← Back to Collections
+      <main className="min-h-screen bg-gradient-to-br from-[#FFF9F0] via-[#FEF7EF] to-[#FDF5E6] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-16 border border-amber-200/50 max-w-lg">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-amber-100 flex items-center justify-center">
+            <svg className="w-10 h-10 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-amber-900 mb-4">Product Not Found</h1>
+          <p className="text-amber-700/70 mb-8">This item may have been removed or doesn't exist</p>
+          <Link 
+            href="/items" 
+            className="inline-flex items-center gap-2 text-amber-800 hover:text-amber-900 font-medium transition-colors group"
+          >
+            <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Collections
           </Link>
         </div>
       </main>
@@ -138,12 +149,23 @@ export default function ProductDetailPage() {
 
   if (hasError) {
     return (
-      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="text-center bg-[#FEF7EF] rounded-2xl shadow-lg p-12 border border-slate-200">
-          <h1 className="text-3xl font-bold text-slate-900 mb-4">Unable to Load Product</h1>
-          <p className="text-slate-600 mb-6">Please try again in a moment.</p>
-          <Link href="/items" className="text-slate-600 hover:text-slate-900 underline font-medium">
-            ← Back to Collections
+      <main className="min-h-screen bg-gradient-to-br from-[#FFF9F0] via-[#FEF7EF] to-[#FDF5E6] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-16 border border-red-200/50 max-w-lg">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-red-100 flex items-center justify-center">
+            <svg className="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-red-900 mb-4">Unable to Load Product</h1>
+          <p className="text-red-700/70 mb-8">Please try again in a moment</p>
+          <Link 
+            href="/items" 
+            className="inline-flex items-center gap-2 text-red-800 hover:text-red-900 font-medium transition-colors group"
+          >
+            <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Collections
           </Link>
         </div>
       </main>
@@ -152,10 +174,10 @@ export default function ProductDetailPage() {
 
   if (isLoading || !product) {
     return (
-      <main className="min-h-screen bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
-        <div className="rounded-2xl bg-[#FEF7EF] p-12 text-slate-700 shadow-lg text-center border border-slate-200">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-300 border-t-slate-900 mb-4"></div>
-          <p>Loading product...</p>
+      <main className="min-h-screen bg-gradient-to-br from-[#FFF9F0] via-[#FEF7EF] to-[#FDF5E6] px-4 sm:px-6 py-8 sm:py-12 flex items-center justify-center">
+        <div className="rounded-3xl bg-white/70 backdrop-blur-sm p-16 shadow-2xl text-center border border-amber-200/50">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-amber-200 border-t-amber-600 mb-6"></div>
+          <p className="text-amber-800 font-light text-lg">Loading your selection...</p>
         </div>
       </main>
     );
@@ -170,20 +192,16 @@ export default function ProductDetailPage() {
     ? Math.round(((product.mrp! - product.price) / product.mrp!) * 100)
     : 0;
 
-  const toggleAccordion = (section: string) => {
-    setOpenAccordion(openAccordion === section ? null : section);
-  };
-
   return (
-    <main className="min-h-screen bg-[#FEF7EF] py-8 sm:py-12 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Back Button */}
+    <main className="min-h-screen bg-gradient-to-br from-[#FFF9F0] via-[#FEF7EF] to-[#FDF5E6] py-8 sm:py-16 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Enhanced Back Button */}
         <Link
           href="/items"
-          className="inline-flex items-center text-slate-700 hover:text-slate-900 mb-6 transition font-medium"
+          className="inline-flex items-center gap-2 text-amber-800 hover:text-amber-900 mb-8 transition-all duration-300 font-medium group"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -198,33 +216,67 @@ export default function ProductDetailPage() {
           Back to Collections
         </Link>
 
-        {/* Product Grid */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Image Section */}
-          <div>
-            {/* Main Image */}
-            <div className="relative w-full aspect-square bg-[#FEF7EF] rounded-2xl overflow-hidden shadow-lg mb-4 border border-slate-200">
+        {/* Premium Product Grid */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Image Gallery Section */}
+          <div className="space-y-5">
+            {/* Main Image with Navigation */}
+            <div className="relative w-full aspect-square bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl overflow-hidden shadow-2xl border border-amber-200/40 group">
               <Image
                 src={currentImage}
                 alt={product.name}
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
                 priority
               />
+              
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              {/* Image Navigation Arrows */}
+              {hasMultipleImages && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-amber-200/50 shadow-lg flex items-center justify-center text-amber-900 hover:bg-white hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                    aria-label="Previous image"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm border border-amber-200/50 shadow-lg flex items-center justify-center text-amber-900 hover:bg-white hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                    aria-label="Next image"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
+
+              {/* Image Counter */}
+              {hasMultipleImages && (
+                <div className="absolute bottom-4 right-4 bg-amber-900/80 backdrop-blur-sm text-white text-sm font-medium px-3 py-1.5 rounded-full">
+                  {currentImageIndex + 1} / {imageList.length}
+                </div>
+              )}
             </div>
 
-            {/* Thumbnail Images */}
+            {/* Enhanced Thumbnail Images */}
             {hasMultipleImages && (
-              <div className="flex gap-3 overflow-x-auto pb-2">
+              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 {imageList.map((imageUrl, index) => (
                   <button
                     key={`${imageUrl}-${index}`}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`relative aspect-square w-20 sm:w-24 flex-shrink-0 overflow-hidden rounded-lg transition ${
+                    className={`relative aspect-square w-20 sm:w-24 flex-shrink-0 overflow-hidden rounded-xl transition-all duration-300 ${
                       index === currentImageIndex
-                        ? 'ring-2 ring-slate-900 ring-offset-2'
-                        : 'ring-1 ring-slate-200 hover:ring-slate-400'
+                        ? 'ring-3 ring-amber-600 ring-offset-2 ring-offset-[#FEF7EF] scale-105 shadow-lg'
+                        : 'ring-1 ring-amber-200/60 hover:ring-amber-400/80 hover:scale-105 shadow-md'
                     }`}
                   >
                     <Image
@@ -232,7 +284,7 @@ export default function ProductDetailPage() {
                       alt={`${product.name} view ${index + 1}`}
                       fill
                       sizes="96px"
-                      className="object-cover bg-[#FEF7EF]"
+                      className="object-cover bg-gradient-to-br from-amber-50 to-orange-50"
                     />
                   </button>
                 ))}
@@ -240,84 +292,98 @@ export default function ProductDetailPage() {
             )}
           </div>
 
-          {/* Product Details Section */}
-          <div className="flex flex-col">
-            {/* Brand */}
-            {product.brand && (
-              <p className="text-xs uppercase tracking-widest text-slate-600 font-semibold mb-3">
-                {product.brand}
-              </p>
-            )}
+          {/* Premium Product Details Section */}
+          <div className="flex flex-col space-y-6">
+            {/* Brand & Category Badge */}
+            <div className="flex items-center gap-3 flex-wrap">
+              {product.brand && (
+                <span className="inline-block px-4 py-1.5 bg-amber-100/60 backdrop-blur-sm text-amber-800 text-xs uppercase tracking-widest font-semibold rounded-full border border-amber-200/50">
+                  {product.brand}
+                </span>
+              )}
+              {product.category && (
+                <span className="inline-block px-4 py-1.5 bg-orange-100/60 backdrop-blur-sm text-orange-800 text-xs uppercase tracking-widest font-medium rounded-full border border-orange-200/50">
+                  {product.category}
+                </span>
+              )}
+            </div>
 
-            {/* Product Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-slate-900 mb-6 leading-tight">
+            {/* Product Title with Gradient */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 bg-clip-text text-transparent leading-tight tracking-tight">
               {product.name}
             </h1>
 
-            {/* Price Section */}
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="text-3xl sm:text-4xl font-bold text-slate-900">
-                  ₹{product.price}
+            {/* Premium Price Section */}
+            <div className="py-6 px-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-amber-200/40 shadow-md">
+              <div className="flex items-baseline gap-4 mb-2">
+                <span className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-amber-900 to-amber-700 bg-clip-text text-transparent">
+                  ₹{product.price.toLocaleString('en-IN')}
                 </span>
                 {hasDiscount && (
                   <>
-                    <span className="text-xl text-slate-400 line-through">
-                      ₹{product.mrp}
+                    <span className="text-2xl text-amber-600/50 line-through font-light">
+                      ₹{product.mrp!.toLocaleString('en-IN')}
                     </span>
-                    <span className="bg-yellow-400 text-slate-900 text-xs font-bold px-2 py-1 rounded">
-                      SALE
+                    <span className="bg-gradient-to-r from-amber-400 to-orange-400 text-amber-900 text-sm font-bold px-3 py-1 rounded-full shadow-sm">
+                      {discountPercent}% OFF
                     </span>
                   </>
                 )}
               </div>
               {hasDiscount && (
-                <p className="text-sm text-emerald-600 font-medium">
-                  Save {discountPercent}% on this item
+                <p className="text-sm text-emerald-700 font-medium flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  You save ₹{(product.mrp! - product.price).toLocaleString('en-IN')}
                 </p>
               )}
             </div>
 
-            {/* Stock Status */}
-            {!isOutOfStock && (
-              <p className="text-sm text-slate-600 mb-6">
-                In Stock • {product.stock} available
-              </p>
-            )}
+           
 
-            {/* Description */}
+            {/* Description with Premium Styling */}
             {product.description && (
-              <p className="text-slate-700 mb-8 leading-relaxed">
-                {product.description}
-              </p>
+              <div className="py-6 px-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-amber-200/30">
+                <p className="text-amber-900/80 leading-relaxed text-base">
+                  {product.description}
+                </p>
+              </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="space-y-3 mb-8">
+            {/* Premium Action Buttons */}
+            <div className="space-y-4 pt-4">
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
-                className={`w-full py-4 px-6 rounded-lg font-semibold transition duration-200 ${
+                className={`w-full py-5 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 shadow-lg ${
                   isOutOfStock
-                    ? 'border-2 border-slate-300 text-slate-400 cursor-not-allowed'
+                    ? 'bg-amber-200/40 text-amber-600/50 cursor-not-allowed border border-amber-300/50'
                     : added
-                      ? 'border-2 border-green-600 text-green-600 bg-green-50'
-                      : 'border-2 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white'
+                      ? 'bg-gradient-to-r from-emerald-100 to-emerald-200 text-emerald-800 border-2 border-emerald-400 scale-95'
+                      : 'bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 hover:from-amber-200 hover:to-orange-200 hover:shadow-xl hover:scale-105 active:scale-95 border border-amber-300/50'
                 }`}
               >
                 {isOutOfStock
                   ? 'Out of Stock'
                   : added
-                    ? '✓ Added to Cart'
+                    ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Added to Cart
+                      </span>
+                    )
                     : 'Add to Cart'}
               </button>
 
               <Link
                 href="/cart"
-                className={`block w-full py-4 px-6 rounded-lg font-semibold transition duration-200 text-center ${
+                className={`block w-full py-5 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 text-center shadow-lg ${
                   isOutOfStock
-                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                    : 'bg-amber-900 text-white hover:bg-amber-950 shadow-md'
+                    ? 'bg-amber-300/30 text-amber-700/50 cursor-not-allowed border border-amber-300/50'
+                    : 'bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-700 hover:to-orange-700 hover:shadow-xl hover:scale-105 active:scale-95'
                 }`}
                 aria-disabled={isOutOfStock}
               >
@@ -325,116 +391,31 @@ export default function ProductDetailPage() {
               </Link>
             </div>
 
-            {/* Accordion Section */}
-            <div className="border-t border-slate-200 pt-6 space-y-4">
-              {/* Product Details Accordion */}
-              <div className="border-b border-slate-200">
-                <button
-                  onClick={() => toggleAccordion('details')}
-                  className="w-full flex items-center justify-between py-4 text-left"
-                >
-                  <span className="font-semibold text-slate-900">Product Details</span>
-                  <svg
-                    className={`w-5 h-5 text-slate-600 transition-transform ${
-                      openAccordion === 'details' ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+            {/* Trust Badges */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-amber-200/50">
+              <div className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl">
+                <div className="w-10 h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openAccordion === 'details' ? 'max-h-96 pb-4' : 'max-h-0'
-                  }`}
-                >
-                  <div className="text-slate-600 space-y-2">
-                    <p><strong>Product ID:</strong> {product.id}</p>
-                    {product.category && <p><strong>Category:</strong> {product.category}</p>}
-                    <p><strong>Availability:</strong> {isOutOfStock ? 'Out of Stock' : `${product.stock} in stock`}</p>
-                  </div>
                 </div>
+                <p className="text-xs text-amber-800 font-medium">Quality Assured</p>
               </div>
-
-              {/* Shipping Accordion */}
-              <div className="border-b border-slate-200">
-                <button
-                  onClick={() => toggleAccordion('shipping')}
-                  className="w-full flex items-center justify-between py-4 text-left"
-                >
-                  <span className="font-semibold text-slate-900">Shipping & Returns</span>
-                  <svg
-                    className={`w-5 h-5 text-slate-600 transition-transform ${
-                      openAccordion === 'shipping' ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+              <div className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl">
+                <div className="w-10 h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openAccordion === 'shipping' ? 'max-h-96 pb-4' : 'max-h-0'
-                  }`}
-                >
-                  <div className="text-slate-600 space-y-2">
-                    <p>• Free shipping on orders over ₹999</p>
-                    <p>• Estimated delivery: 3-5 business days</p>
-                    <p>• 30-day return policy</p>
-                    <p>• Free returns on all orders</p>
-                  </div>
                 </div>
+                <p className="text-xs text-amber-800 font-medium">Secure Payment</p>
               </div>
-
-              {/* Care Instructions Accordion */}
-              <div className="border-b border-slate-200">
-                <button
-                  onClick={() => toggleAccordion('care')}
-                  className="w-full flex items-center justify-between py-4 text-left"
-                >
-                  <span className="font-semibold text-slate-900">Care Instructions</span>
-                  <svg
-                    className={`w-5 h-5 text-slate-600 transition-transform ${
-                      openAccordion === 'care' ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+              <div className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl">
+                <div className="w-10 h-10 mx-auto mb-2 bg-amber-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openAccordion === 'care' ? 'max-h-96 pb-4' : 'max-h-0'
-                  }`}
-                >
-                  <div className="text-slate-600 space-y-2">
-                    <p>• Handle with care to avoid damage</p>
-                    <p>• Clean with a soft, dry cloth</p>
-                    <p>• Store in a cool, dry place</p>
-                    <p>• Avoid exposure to direct sunlight</p>
-                  </div>
                 </div>
+                <p className="text-xs text-amber-800 font-medium">Fast Shipping</p>
               </div>
             </div>
           </div>

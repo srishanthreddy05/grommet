@@ -29,7 +29,7 @@ interface HomeCategorySectionProps {
 export default function HomeCategorySection({
   categorySlug,
   categoryTitle,
-  bgColor = 'white',
+  bgColor = '#FFF9F0',
 }: HomeCategorySectionProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,16 +83,31 @@ export default function HomeCategorySection({
 
   if (isLoading) {
     return (
-      <section style={{ backgroundColor: bgColor }} className="py-8">
-        <div className="container">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
+      <section style={{ backgroundColor: bgColor }} className="py-12 sm:py-16 relative overflow-hidden">
+        {/* Decorative Background Element */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-200/30 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="space-y-8">
+            {/* Section Header */}
+            <div className="text-center sm:text-left">
+              <div className="flex items-center justify-center sm:justify-start gap-3 mb-3">
+                <div className="h-px w-8 bg-gradient-to-r from-transparent to-amber-300"></div>
+                <span className="text-xs uppercase tracking-widest text-amber-700/60 font-semibold">Collection</span>
+                <div className="h-px w-8 bg-gradient-to-l from-transparent to-amber-300"></div>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 bg-clip-text text-transparent mb-2 tracking-tight">
                 {categoryTitle}
               </h2>
-              <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
+              <p className="text-sm sm:text-base text-amber-700/70 font-light">Discover our curated selection</p>
             </div>
-            <div className="text-center text-slate-500">Loading...</div>
+
+            {/* Loading Animation */}
+            <div className="flex items-center justify-center py-16">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-amber-200 border-t-amber-600"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -104,89 +119,153 @@ export default function HomeCategorySection({
   }
 
   return (
-    <section style={{ backgroundColor: bgColor }} className="py-8">
-      <div className="container">
-        <div className="space-y-6">
-          {/* Section Header */}
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
+    <section style={{ backgroundColor: bgColor }} className="py-12 sm:py-16 relative overflow-hidden">
+      {/* Premium Background Decoration */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="space-y-8">
+          {/* Enhanced Section Header */}
+          <div className="text-center sm:text-left mb-8">
+            <div className="flex items-center justify-center sm:justify-start gap-3 mb-4">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent via-amber-300 to-amber-400"></div>
+              <span className="text-xs uppercase tracking-widest text-amber-700/60 font-semibold">Featured Collection</span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent via-amber-300 to-amber-400"></div>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 bg-clip-text text-transparent mb-3 tracking-tight">
               {categoryTitle}
             </h2>
-            <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
+            <p className="text-sm sm:text-base text-amber-700/70 font-light tracking-wide">
+              Handpicked pieces crafted with excellence
+            </p>
           </div>
 
-          {/* Products Flex Container - Horizontal scroll */}
-          <div 
-            className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5"
-            style={{
-              flexWrap: 'nowrap',
-              scrollBehavior: 'smooth',
-              WebkitOverflowScrolling: 'touch'
-            }}
-          >
-          {products.map((product) => {
-            const hasDiscount = product.mrp && product.mrp > product.price;
-            const discountPercent = hasDiscount
-              ? Math.round(((product.mrp! - product.price) / product.mrp!) * 100)
-              : 0;
+          {/* Premium Products Horizontal Scroll */}
+          <div className="relative group">
+            {/* Scroll Gradient Overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FFF9F0] to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FFF9F0] to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            return (
-              <Link
-                key={product.id}
-                href={`/items/${product.id}`}
-                className="bg-[#FEF7EF] rounded-xl shadow-md p-4 flex flex-col group product-card"
-              >
-                {/* Product Image */}
-                <div className="relative w-full aspect-[4/5] bg-gray-100 rounded-lg overflow-hidden mb-3">
-                  <Image
-                    src={product.displayImage}
-                    alt={product.name}
-                    fill
-                    sizes="100vw"
-                    className="object-cover group-hover:scale-105 transition duration-300"
-                  />
-                  {/* Discount Badge */}
-                  {hasDiscount && (
-                    <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                      {discountPercent}% OFF
+            <div 
+              className="flex gap-5 sm:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+              style={{
+                flexWrap: 'nowrap',
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none'
+              }}
+            >
+              {products.map((product) => {
+                const hasDiscount = product.mrp && product.mrp > product.price;
+                const discountPercent = hasDiscount
+                  ? Math.round(((product.mrp! - product.price) / product.mrp!) * 100)
+                  : 0;
+
+                return (
+                  <Link
+                    key={product.id}
+                    href={`/items/${product.id}`}
+                    className="flex-shrink-0 w-[280px] sm:w-[320px] bg-white/70 backdrop-blur-sm rounded-2xl border border-amber-200/40 shadow-md hover:shadow-2xl hover:border-amber-300/60 transition-all duration-500 overflow-hidden flex flex-col group hover:-translate-y-2 snap-start"
+                  >
+                    {/* Product Image */}
+                    <div className="relative w-full aspect-[4/5] bg-gradient-to-br from-amber-50 to-orange-50 overflow-hidden">
+                      <Image
+                        src={product.displayImage}
+                        alt={product.name}
+                        fill
+                        sizes="320px"
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      
+                      {/* Gradient Overlay on Hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-amber-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                      {/* Discount Badge */}
+                      {hasDiscount && (
+                        <div className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">
+                          {discountPercent}% OFF
+                        </div>
+                      )}
+
+                      {/* Stock Badge */}
+                      {product.stock < 5 && product.stock > 0 && (
+                        <div className="absolute top-3 right-3 bg-amber-100/90 backdrop-blur-sm text-amber-800 text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
+                          Only {product.stock} left
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                {/* Product Info */}
-                <div className="flex-1 flex flex-col">
-                  <h3 className="text-sm font-medium text-slate-900 mb-2 line-clamp-2 group-hover:text-slate-700 transition">
-                    {product.name}
-                  </h3>
+                    {/* Product Info */}
+                    <div className="p-5 flex-1 flex flex-col bg-gradient-to-b from-transparent to-amber-50/30">
+                      <h3 className="text-sm sm:text-base font-semibold text-amber-950 mb-3 line-clamp-2 group-hover:text-amber-800 transition-colors duration-300 leading-snug">
+                        {product.name}
+                      </h3>
 
-                  {/* Pricing */}
-                  <div className="mt-auto">
-                    {hasDiscount && (
-                      <p className="text-xs text-slate-400 line-through mb-1">
-                        ₹{product.mrp}
-                      </p>
-                    )}
-                    <p className="text-sm font-semibold text-slate-900">
-                      ₹{product.price}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                      {/* Pricing Section */}
+                      <div className="mt-auto space-y-2">
+                        <div className="flex items-baseline gap-2">
+                          <p className="text-lg sm:text-xl font-bold bg-gradient-to-r from-amber-900 to-amber-700 bg-clip-text text-transparent">
+                            ₹{product.price.toLocaleString('en-IN')}
+                          </p>
+                          {hasDiscount && (
+                            <p className="text-xs sm:text-sm text-amber-600/50 line-through font-light">
+                              ₹{product.mrp!.toLocaleString('en-IN')}
+                            </p>
+                          )}
+                        </div>
 
-        {/* View All Button */}
-        <div className="flex justify-center mt-6">
-          <Link
-            href={`/items?category=${categorySlug}`}
-            className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-slate-800 transition duration-200"
-          >
-            View All
-          </Link>
-        </div>
+                        {/* Quick View Indicator */}
+                        <div className="flex items-center gap-1.5 text-amber-700/0 group-hover:text-amber-700/70 transition-colors duration-300">
+                          <span className="text-xs font-medium">View Details</span>
+                          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Enhanced View All Button */}
+          <div className="flex justify-center mt-10">
+            <Link
+              href={`/items?category=${categorySlug}`}
+              className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 px-8 py-4 rounded-full text-sm font-semibold hover:from-amber-200 hover:to-orange-200 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-300/50 overflow-hidden"
+            >
+              {/* Shimmer Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              <span className="relative z-10">View All {categoryTitle}</span>
+              <svg 
+                className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* Custom Scrollbar Styles */}
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }
