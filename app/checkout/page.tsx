@@ -157,7 +157,7 @@ export default function CheckoutPage() {
       }
 
       setOtpState((prev) => ({ ...prev, verified: true }));
-      setSuccessMessage('Order initiated - com through WhatsApp');
+      setSuccessMessage('Order initiated - continue through WhatsApp');
     } catch (err) {
       setError('Error verifying OTP');
       console.error('Verify OTP error:', err);
