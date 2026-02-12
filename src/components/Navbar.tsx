@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/src/context/CartContext';
 import { useState, useRef, useEffect } from 'react';
@@ -91,9 +92,17 @@ export default function Navbar() {
             {/* Center: Logo */}
             <Link
               href="/"
-              className="absolute left-1/2 transform -translate-x-1/2 text-2xl sm:text-3xl font-bold text-slate-900 hover:text-slate-700 transition duration-200"
+              className="absolute left-1/2 transform -translate-x-1/2 hover:opacity-80 transition-opacity duration-200"
+              aria-label="Home"
             >
-              Grommet
+              <Image
+                src="/images/logo.png"
+                alt="Grommet"
+                height={160}
+                width={160}
+                priority
+                className="h-40 w-auto"
+              />
             </Link>
 
             {/* Right: Profile + Cart */}
