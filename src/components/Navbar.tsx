@@ -98,10 +98,10 @@ export default function Navbar() {
               <Image
                 src="/images/logo.png"
                 alt="Grommet"
-                height={160}
-                width={160}
+                height={60}
+                width={60}
                 priority
-                className="h-40 w-auto"
+                className="h-16 w-auto"
               />
             </Link>
 
