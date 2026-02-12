@@ -10,82 +10,8 @@ export default function CartPage() {
   const router = useRouter();
   const { items, updateQuantity, totalAmount, clearCart } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [customerName, setCustomerName] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
-  const [formError, setFormError] = useState('');
 
-  const handleCheckout = () => {
-    if (items.length === 0) return;
 
-    const trimmedName = customerName.trim();
-    const trimmedPhone = customerPhone.trim();
-    const phoneIsValid = /^[0-9]{10}$/.test(trimmedPhone);
-
-    if (!trimmedName || !trimmedPhone) {
-      setFormError('Please enter your name and 10-digit phone number.');
-      return;
-    }
-
-    if (!phoneIsValid) {
-      setFormError('Please enter a valid 10-digit phone number.');
-      return;
-    }
-
-    setFormError('');
-
-    setIsCheckingOut(true);
-
-    // Generate Order ID
-    const orderId = `GRM-${Date.now()}`;
-
-    // Create WhatsApp message
-    const message = `Hello! I'm ${trimmedName} I would like to place an order.\n\nOrder ID: ${orderId}\n\nItems:\n${items
-      .map(
-        (item) =>
-          `* ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`
-      )
-      .join('\n')}\n\nTotal Amount: ₹${totalAmount}\n\nPlease confirm my order. Thank you!`;
-
-    // Encode message for URL
-    const encodedMessage = encodeURIComponent(message);
-
-    // WhatsApp number with country code (India)
-    const whatsappNumber = '918125902062';
-
-    // Open WhatsApp
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-    const popup = window.open(whatsappUrl, '_blank');
-
-    const finishCheckout = () => {
-      clearCart();
-      setIsCheckingOut(false);
-    };
-
-    if (popup) {
-      let isSameOrigin = false;
-
-      try {
-        isSameOrigin = popup.location.origin === window.location.origin;
-      } catch (error) {
-        isSameOrigin = false;
-      }
-
-      if (isSameOrigin) {
-        const checkClosed = setInterval(() => {
-          if (popup.closed) {
-            clearInterval(checkClosed);
-            finishCheckout();
-          }
-        }, 500);
-        return;
-      }
-    }
-
-    // Fallback when popup is blocked or cross-origin.
-    setTimeout(() => {
-      finishCheckout();
-    }, 3000);
-  };
 
   if (items.length === 0) {
     return (
@@ -198,36 +124,7 @@ export default function CartPage() {
             </div>
           </div>
 
-          {/* Customer Details */}
-          <div className="space-y-4 border-t border-slate-200 pt-6">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-                placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-[#FEF7EF] text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                value={customerPhone}
-                onChange={(e) => setCustomerPhone(e.target.value)}
-                placeholder="10-digit number"
-                className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-[#FEF7EF] text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition"
-              />
-            </div>
-            {formError && (
-              <p className="text-sm text-red-600 font-medium bg-red-50 p-3 rounded-lg">{formError}</p>
-            )}
-          </div>
+
 
           {/* Action Buttons */}
           <div className="space-y-3 border-t border-slate-200 pt-6">
@@ -237,13 +134,6 @@ export default function CartPage() {
             >
               <span>💬</span>
               Secure Checkout
-            </button>
-            <button
-              onClick={handleCheckout}
-              disabled={isCheckingOut}
-              className="w-full px-8 py-4 sm:py-5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white text-lg font-bold rounded-xl transition duration-200 active:scale-95 shadow-lg hover:shadow-xl disabled:shadow-md"
-            >
-              {isCheckingOut ? 'Opening WhatsApp...' : 'Quick Checkout (WhatsApp)'}
             </button>
             <div className="grid grid-cols-2 gap-3">
               <Link
