@@ -8,6 +8,7 @@ import { useCart } from '@/src/context/CartContext';
 import type { CartItem } from '@/src/context/CartContext';
 
 interface CheckoutFormState {
+  name: string;
   email: string;
   phone: string;
 }
@@ -24,6 +25,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState<CheckoutFormState>({
+    name: '',
     email: '',
     phone: '',
   });
@@ -84,6 +86,15 @@ export default function CheckoutPage() {
     return true;
   };
 
+  const validateName = (): boolean => {
+    if (user) return true;
+    if (!formData.name.trim()) {
+      setError('Name is required');
+      return false;
+    }
+    return true;
+  };
+
   const validatePhone = (): boolean => {
     if (!formData.phone.trim()) {
       setError('Phone number is required');
@@ -97,7 +108,7 @@ export default function CheckoutPage() {
   };
 
   const handleSendOTP = async () => {
-    if (!validateEmail() || !validatePhone()) return;
+    if (!validateName() || !validateEmail() || !validatePhone()) return;
 
     setSendingOtp(true);
     setError('');
@@ -167,7 +178,7 @@ export default function CheckoutPage() {
   };
 
   const handleCheckoutWhatsApp = async () => {
-    if (!validatePhone()) return;
+    if (!validateName() || !validatePhone()) return;
 
     setCreatingOrder(true);
     setError('');
@@ -177,7 +188,7 @@ export default function CheckoutPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: user?.displayName || 'Guest',
+          name: user?.displayName || formData.name.trim() || 'Guest',
           email: formData.email,
           phone: formData.phone,
           items: items,
@@ -257,6 +268,23 @@ export default function CheckoutPage() {
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-amber-900">Email Verification</h2>
               </div>
+
+              {!user && (
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold text-amber-900 mb-2">
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="John Doe"
+                    disabled={otpState.sent}
+                    className="w-full px-4 py-3.5 border border-amber-200/60 bg-white/80 rounded-xl focus:ring-2 focus:ring-amber-300/50 focus:border-amber-300 disabled:bg-amber-50/50 disabled:cursor-not-allowed text-amber-950 placeholder-amber-600/40 transition-all duration-300 shadow-sm"
+                  />
+                </div>
+              )}
 
               {/* Email Field */}
               <div className="mb-5">

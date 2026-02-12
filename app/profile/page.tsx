@@ -210,19 +210,6 @@ export default function ProfilePage() {
           <div className="bg-gradient-to-r from-[#8B7355]/10 to-[#6B5D52]/10 px-8 py-10 border-b border-[#E8DFD4]">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center gap-6 mb-6">
-                {user.photoURL ? (
-                  <img 
-                    src={user.photoURL} 
-                    alt="Profile" 
-                    className="w-20 h-20 rounded-2xl shadow-lg border-2 border-white"
-                  />
-                ) : (
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#8B7355] to-[#6B5D52] rounded-2xl flex items-center justify-center shadow-lg">
-                    <span className="text-white text-2xl font-semibold">
-                      {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
-                    </span>
-                  </div>
-                )}
                 <div>
                   <h1 className="text-3xl font-semibold text-[#3D3430] mb-1 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
                     {user.displayName || 'Valued Customer'}
