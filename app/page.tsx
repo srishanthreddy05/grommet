@@ -18,15 +18,16 @@ export default function HomePage() {
         {/* Content Container */}
         <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
           <div className="mx-auto max-w-5xl flex flex-col items-center text-center">
-
-            {/* Badge */}
-            <div className="inline-flex items-center gap-3 mb-10 px-7 py-3 bg-white/60 backdrop-blur-sm rounded-full border border-amber-200/50 shadow-md">
-              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-              <span className="text-xs sm:text-sm uppercase tracking-widest text-amber-800 font-semibold">
-                Premium Automotive Collection
-              </span>
-              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+           {/* Tagline */}
+            <div className="max-w-4xl mb-16 px-8 py-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-amber-200/30 shadow-sm">
+              <p className="text-lg sm:text-xl lg:text-2xl text-amber-900/80 font-light leading-relaxed">
+                At Grommet, we believe cars are more than machines — they're{' '}
+                <span className="font-bold text-orange-700">passion</span>,{' '}
+                <span className="font-bold text-orange-700">power</span>, and{' '}
+                <span className="font-bold text-orange-700">personality</span>.
+              </p>
             </div>
+           
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-10 tracking-tight px-4">
@@ -38,37 +39,67 @@ export default function HomePage() {
               </span>
             </h1>
 
-            {/* Tagline */}
-            <div className="max-w-4xl mb-16 px-8 py-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-amber-200/30 shadow-sm">
-              <p className="text-lg sm:text-xl lg:text-2xl text-amber-900/80 font-light leading-relaxed">
-                At Grommet, we believe cars are more than machines — they're{' '}
-                <span className="font-bold text-orange-700">passion</span>,{' '}
-                <span className="font-bold text-orange-700">power</span>, and{' '}
-                <span className="font-bold text-orange-700">personality</span>.
-              </p>
-            </div>
+           
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-5">
               <a
-                href="#collections"
-                className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-10 py-4 rounded-full text-base sm:text-lg font-semibold hover:from-amber-700 hover:to-orange-700 hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 min-w-[240px]"
-              >
-                Explore Collections
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+  href="#collections"
+  className="inline-flex items-center justify-center 
+  gap-2 bg-gradient-to-r from-amber-600 to-orange-600 
+  text-white px-12 py-4 rounded-full 
+  text-base sm:text-lg font-semibold 
+  hover:from-amber-700 hover:to-orange-700 hover:shadow-2xl 
+  transition-all duration-300 hover:scale-105 active:scale-95 
+  min-w-[260px]"
+>
+  <span className="flex-1 text-center">
+    Explore Collections
+  </span>
+  <svg
+    className="w-6 h-4 flex-shrink-0"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M17 8l4 4m0 0l-4 4m4-4H3"
+    />
+  </svg>
+</a>
 
-              <a
-                href="/items"
-                className="inline-flex items-center justify-center gap-3 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 px-10 py-4 rounded-full text-base sm:text-lg font-semibold hover:from-amber-200 hover:to-orange-200 hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-300/50 min-w-[240px]"
-              >
-                Shop All Products
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-              </a>
+
+<a
+  href="/items"
+  className="inline-flex items-center justify-center 
+  gap-2 bg-gradient-to-r from-amber-100 to-orange-100 
+  text-amber-900 px-12 py-4 rounded-full 
+  text-base sm:text-lg font-semibold 
+  hover:from-amber-200 hover:to-orange-200 hover:shadow-2xl 
+  transition-all duration-300 hover:scale-105 active:scale-95 
+  border border-amber-300/50 min-w-[260px]"
+>
+  <span className="flex-1 text-center">
+    Shop All Products
+  </span>
+  <svg
+    className="w-6 h-4 flex-shrink-0"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+    />
+  </svg>
+</a>
+
             </div>
 
           </div>
