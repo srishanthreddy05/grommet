@@ -97,7 +97,7 @@ export default function CheckoutPage() {
   };
 
   const handleSendOTP = async () => {
-    if (!validateEmail()) return;
+    if (!validateEmail() || !validatePhone()) return;
 
     setSendingOtp(true);
     setError('');
@@ -157,7 +157,7 @@ export default function CheckoutPage() {
       }
 
       setOtpState((prev) => ({ ...prev, verified: true }));
-      setSuccessMessage('Email verified successfully!');
+      setSuccessMessage('Order initiated - com through WhatsApp');
     } catch (err) {
       setError('Error verifying OTP');
       console.error('Verify OTP error:', err);
@@ -257,6 +257,21 @@ export default function CheckoutPage() {
                 />
               </div>
 
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="+91 98765 43210"
+                  disabled={otpState.sent}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                />
+              </div>
+
               {/* Send OTP Button */}
               {!otpState.sent ? (
                 <button
@@ -312,21 +327,9 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            {/* Phone Section - Show after OTP verified */}
+            {/* WhatsApp Checkout - Show after OTP verified */}
             {otpState.verified && (
               <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-6">Phone Number</h2>
-
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="+91 98765 43210"
-                  disabled={creatingOrder}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 mb-4"
-                />
-
                 <button
                   onClick={handleCheckoutWhatsApp}
                   disabled={creatingOrder || !formData.phone.trim()}

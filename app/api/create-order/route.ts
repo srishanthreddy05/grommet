@@ -39,8 +39,10 @@ interface OrderData {
   name: string;
   email: string;
   phone: string;
+  itemNames: string[];
   items: CartItem[];
   totalAmount: number;
+  cartValue: number;
   status: string;
   paymentMode: string;
   createdAt: number;
@@ -132,8 +134,10 @@ export async function POST(request: NextRequest) {
       name: name.trim(),
       email: email.trim(),
       phone: phone.replace(/[^\d]/g, ''), // Store only digits
+      itemNames: items.map((item) => item.name),
       items,
       totalAmount,
+      cartValue: totalAmount,
       status: 'Pending',
       paymentMode: 'WhatsApp',
       createdAt: Date.now(),
@@ -152,6 +156,7 @@ export async function POST(request: NextRequest) {
       orderId,
       createdAt: Date.now(),
       totalAmount,
+      cartValue: totalAmount,
     });
 
     // Generate WhatsApp message and link

@@ -122,7 +122,7 @@ export default function ProfilePage() {
   // Loading state
   if (loading) {
     return (
-      <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#FEF7EF] flex items-center justify-center px-4">
         <div className="text-center space-y-4">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
           <p className="text-slate-600 font-medium">Loading...</p>
@@ -134,8 +134,8 @@ export default function ProfilePage() {
   // Not logged in - show login button
   if (!user) {
     return (
-      <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
-        <div className="py-8 px-4 space-y-6">
+      <div className="min-h-screen bg-[#FEF7EF]">
+        <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-md mx-auto space-y-6">
           <div className="text-center">
             <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
               <svg
@@ -203,47 +203,20 @@ export default function ProfilePage() {
 
   // Logged in - show user profile and orders
   return (
-    <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
-      {/* User Profile Section */}
-      <section className="py-8 px-4 bg-[#FEF7EF]">
+    <div className="min-h-screen bg-[#FEF7EF]">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="rounded-2xl border border-slate-200 shadow-sm bg-[#FEF7EF] overflow-hidden">
+          {/* User Profile Section */}
+          <section className="py-8">
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>Your Profile</h1>
-            <p className="text-sm text-gray-500">View your account details</p>
-          </div>
-
-          {/* Profile Photo */}
-          <div className="flex justify-center">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-200 border-4 border-white shadow-md">
-              {user.photoURL ? (
-                <img 
-                  src={user.photoURL} 
-                  alt={user.displayName || 'Profile'} 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-slate-300">
-                  <svg
-                    className="w-10 h-10 text-slate-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                </div>
-              )}
-            </div>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>Your Profile</h1>
+            <p className="text-sm sm:text-base text-gray-500">View your account details</p>
           </div>
 
           {/* User Info */}
-          <div className="space-y-3">
+          <div className="space-y-3 max-w-md mx-auto">
             <div>
               <p className="text-xs text-gray-500 font-medium mb-1">Name</p>
               <p className="text-sm font-semibold text-slate-900">
@@ -266,30 +239,31 @@ export default function ProfilePage() {
           )}
 
           {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            disabled={authLoading}
-            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-2 px-4 rounded-full transition duration-200 text-sm"
-          >
-            {authLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                Logging out...
-              </span>
-            ) : (
-              'Logout'
-            )}
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleLogout}
+              disabled={authLoading}
+              className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 text-sm w-[150px]">
+              {authLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                  Logging out...
+                </span>
+              ) : (
+                'Logout'
+              )}
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* My Orders Section */}
-      <section className="py-8 px-4 bg-[#FEF7EF]">
-        <div className="space-y-6">
+          {/* My Orders Section */}
+          <section className="py-8">
+        <div className="space-y-6 max-w-3xl mx-auto">
           {/* Header */}
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>My Orders</h2>
-            <p className="text-sm text-gray-500">Your recent purchases</p>
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>My Orders</h2>
+            <p className="text-sm sm:text-base text-gray-500">Your recent purchases</p>
           </div>
 
           {/* Orders List */}
@@ -330,7 +304,9 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
-      </section>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
