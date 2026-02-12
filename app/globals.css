@@ -32,6 +32,7 @@ html[data-scroll-behavior="smooth"] {
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -90,6 +91,27 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Product card responsive flex sizing */
+.product-card {
+  flex: 0 0 calc(50% - 8px);
+}
+
+@media (min-width: 1024px) {
+  .product-card {
+    flex: 0 0 calc(25% - 12px);
+  }
+}
+
+/* Reusable container class for consistent spacing */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
 /* Ensure no horizontal scroll on any device */

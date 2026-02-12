@@ -217,7 +217,7 @@ export default function CheckoutPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#FEF7EF]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading...</p>
@@ -227,7 +227,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FEF7EF] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Checkout</h1>
@@ -236,7 +236,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 gap-8">
           {/* Main Form */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-[#FEF7EF] rounded-lg shadow-md p-6">
             {/* Email & OTP Section */}
             <div className="mb-8 pb-8 border-b">
               <h2 className="text-xl font-semibold text-gray-900 mb-6">Email Verification</h2>
@@ -362,7 +362,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-[#FEF7EF] rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Summary</h2>
 
             <div className="space-y-4 mb-6 pb-6 border-b">

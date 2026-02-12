@@ -205,7 +205,7 @@ export default function ProfilePage() {
   return (
     <div className="max-w-md mx-auto rounded-2xl shadow-lg overflow-hidden min-h-screen bg-[#FFF7EF]">
       {/* User Profile Section */}
-      <section className="py-8 px-4 bg-white">
+      <section className="py-8 px-4 bg-[#FEF7EF]">
         <div className="space-y-6">
           {/* Header */}
           <div className="text-center">
@@ -306,7 +306,7 @@ export default function ProfilePage() {
           ) : (
             <div className="space-y-3">
               {orders.map((order) => (
-                <div key={order.id} className="bg-white rounded-lg shadow-sm p-4 border border-slate-100">
+                <div key={order.id} className="bg-[#FEF7EF] rounded-lg shadow-sm p-4 border border-slate-100">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <p className="text-xs text-gray-500 font-medium">Order ID</p>

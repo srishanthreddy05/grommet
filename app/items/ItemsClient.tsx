@@ -160,7 +160,7 @@ export default function ItemsClient() {
                 <Link
                   key={product.id}
                   href={`/items/${product.id}`}
-                  className="group bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-300 overflow-hidden flex flex-col h-full"
+                  className="group bg-[#FEF7EF] rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-300 overflow-hidden flex flex-col h-full"
                 >
                   <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
                     <Image

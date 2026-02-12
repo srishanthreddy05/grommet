@@ -53,14 +53,13 @@ export default function HomeCategorySection({
           return;
         }
 
-        // Filter products by category and enabled status, then take first 2
+        // Filter products by category and enabled status
         const categoryProducts = Object.entries(data)
           .map(([id, product]) => ({ id, ...product }))
           .filter(
             (product) =>
               product.enabled === true && product.category === categorySlug
-          )
-          .slice(0, 2); // Only take first 2 products
+          );
 
         setProducts(categoryProducts);
       } catch (error) {
@@ -84,15 +83,17 @@ export default function HomeCategorySection({
 
   if (isLoading) {
     return (
-      <section style={{ backgroundColor: bgColor }} className="py-8 px-4">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
-              {categoryTitle}
-            </h2>
-            <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
+      <section style={{ backgroundColor: bgColor }} className="py-8">
+        <div className="container">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
+                {categoryTitle}
+              </h2>
+              <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
+            </div>
+            <div className="text-center text-slate-500">Loading...</div>
           </div>
-          <div className="text-center text-slate-500">Loading...</div>
         </div>
       </section>
     );
@@ -103,19 +104,27 @@ export default function HomeCategorySection({
   }
 
   return (
-    <section style={{ backgroundColor: bgColor }} className="py-8 px-4">
-      <div className="space-y-6">
-        {/* Section Header */}
-        <div>
-          <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
-            {categoryTitle}
-          </h2>
-          <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
-        </div>
+    <section style={{ backgroundColor: bgColor }} className="py-8">
+      <div className="container">
+        <div className="space-y-6">
+          {/* Section Header */}
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900 mb-1" style={{ fontFamily: 'Playfair Display' }}>
+              {categoryTitle}
+            </h2>
+            <p className="text-sm text-gray-500">Discover our latest best-seller!</p>
+          </div>
 
-        {/* Products Grid - 2 Columns */}
-        <div className="grid grid-cols-2 gap-4">
-          {products.slice(0, 2).map((product) => {
+          {/* Products Flex Container - Horizontal scroll */}
+          <div 
+            className="flex gap-4 overflow-x-auto scrollbar-hide -mx-5 px-5"
+            style={{
+              flexWrap: 'nowrap',
+              scrollBehavior: 'smooth',
+              WebkitOverflowScrolling: 'touch'
+            }}
+          >
+          {products.map((product) => {
             const hasDiscount = product.mrp && product.mrp > product.price;
             const discountPercent = hasDiscount
               ? Math.round(((product.mrp! - product.price) / product.mrp!) * 100)
@@ -125,7 +134,7 @@ export default function HomeCategorySection({
               <Link
                 key={product.id}
                 href={`/items/${product.id}`}
-                className="bg-white rounded-xl shadow-md p-4 flex flex-col group"
+                className="bg-[#FEF7EF] rounded-xl shadow-md p-4 flex flex-col group product-card"
               >
                 {/* Product Image */}
                 <div className="relative w-full aspect-[4/5] bg-gray-100 rounded-lg overflow-hidden mb-3">
@@ -175,6 +184,7 @@ export default function HomeCategorySection({
           >
             View All
           </Link>
+        </div>
         </div>
       </div>
     </section>

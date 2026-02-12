@@ -143,7 +143,7 @@ export default function MyOrdersPage() {
   // Loading state while checking auth
   if (loading) {
     return (
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#FEF7EF] px-4">
         <div className="text-center space-y-4">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-slate-900"></div>
           <p className="text-slate-600 font-medium">Loading...</p>
@@ -155,8 +155,8 @@ export default function MyOrdersPage() {
   // Not logged in - show options
   if (!user) {
     return (
-      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-white px-4 py-8">
-        <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
+      <main className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#FEF7EF] px-4 py-8">
+        <div className="w-full max-w-md bg-[#FEF7EF] rounded-2xl border border-slate-200 shadow-lg p-8 space-y-6">
           <div className="text-center">
             <div className="mx-auto w-16 h-16 bg-slate-900 rounded-full flex items-center justify-center mb-4">
               <svg
@@ -225,7 +225,7 @@ export default function MyOrdersPage() {
                   <div className="w-full border-t border-slate-200"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-slate-500">or</span>
+                  <span className="px-2 bg-[#FEF7EF] text-slate-500">or</span>
                 </div>
               </div>
 
@@ -271,7 +271,7 @@ export default function MyOrdersPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-white px-4 sm:px-6 py-8 sm:py-12">
+    <main className="min-h-[calc(100vh-64px)] bg-[#FEF7EF] px-4 sm:px-6 py-8 sm:py-12">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">My Orders</h1>
@@ -290,7 +290,7 @@ export default function MyOrdersPage() {
             <p className="text-slate-600 font-medium">Loading orders...</p>
           </div>
         ) : orders.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-12 text-center">
+          <div className="bg-[#FEF7EF] rounded-2xl border border-slate-200 shadow-lg p-12 text-center">
             <div className="mx-auto w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <svg
                 className="w-10 h-10 text-slate-400"
@@ -320,7 +320,7 @@ export default function MyOrdersPage() {
             {orders.map((order) => (
               <div
                 key={order.orderId}
-                className="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200 p-6"
+                className="bg-[#FEF7EF] rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition duration-200 p-6"
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-5">
                   <div>
