@@ -239,9 +239,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF9F0] via-[#FEF7EF] to-[#FDF5E6] py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Premium Page Header */}
-        <div className="mb-10 text-center">
+        <div className="mb-12 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-amber-300"></div>
             <span className="text-xs uppercase tracking-widest text-amber-700/60 font-semibold">Secure Checkout</span>
@@ -255,7 +255,7 @@ export default function CheckoutPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
           {/* Main Form - Left Column (2/3 width) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Email & OTP Section */}

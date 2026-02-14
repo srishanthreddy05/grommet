@@ -328,7 +328,9 @@ export default function ProfilePage() {
                           <p className="text-xs text-[#8B7D72] font-semibold uppercase tracking-wider mb-1">Products</p>
                           <p className="text-sm text-[#3D3430]">
                             {(order.items || [])
-                              .map((item: { name?: string }) => item.name)
+                              .map((item: { name?: string; quantity?: number }) => 
+                                `${item.name} x${item.quantity || 1}`
+                              )
                               .filter(Boolean)
                               .join(', ') || 'N/A'}
                           </p>

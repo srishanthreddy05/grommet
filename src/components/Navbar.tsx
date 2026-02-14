@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useCart } from '@/src/context/CartContext';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { items } = useCart();
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
 
@@ -33,7 +34,16 @@ export default function Navbar() {
     if (href === '/') {
       return pathname === '/';
     }
-    return pathname.startsWith(href.split('?')[0]);
+    // For items with query params, match the full URL including params
+    if (href.includes('?')) {
+      const [basePath, queryString] = href.split('?');
+      const currentPath = pathname;
+      const currentCategory = searchParams.get('category');
+      const expectedCategory = new URLSearchParams(queryString).get('category');
+      
+      return currentPath === basePath && currentCategory === expectedCategory;
+    }
+    return pathname.startsWith(href);
   };
 
   // Close mobile menu when clicking outside
@@ -62,10 +72,10 @@ export default function Navbar() {
     <>
       {/* Main Header - Sticky */}
       <header className="sticky top-0 z-40 bg-[#FEF7EF] border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center h-16 relative">
             {/* Left: Hamburger (mobile) */}
-            <div className="flex items-center gap-2 flex-1">
+            <div className="absolute left-0 flex md:hidden">
               {/* Hamburger Menu - Mobile Only */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -92,7 +102,7 @@ export default function Navbar() {
             {/* Center: Logo */}
             <Link
               href="/"
-              className="absolute left-1/2 transform -translate-x-1/2 hover:opacity-80 transition-opacity duration-200"
+              className="hover:opacity-80 transition-opacity duration-200"
               aria-label="Home"
             >
               <Image
@@ -106,7 +116,7 @@ export default function Navbar() {
             </Link>
 
             {/* Right: Profile + Cart */}
-            <div className="flex items-center gap-2 justify-end flex-1">
+            <div className="absolute right-0 flex items-center gap-2 md:gap-4">
               {/* Profile Icon */}
               <Link
                 href="/profile"
@@ -159,26 +169,23 @@ export default function Navbar() {
 
         {/* Desktop Category Navigation */}
         <div className="hidden md:block border-t border-slate-200 bg-[#FEF7EF]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav className="flex items-center justify-center gap-8 py-3">
+          <div className="w-full px-4 sm:px-6 lg:px-8 flex justify-center">
+            <nav className="flex items-center justify-center gap-6 lg:gap-8 py-3">
               {menuItems.map((item) => {
                 const active = isActive(item.href);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`text-sm font-medium transition-all duration-200 relative pb-1 ${
+                    className={`text-sm font-medium transition-all duration-200 relative pb-1 whitespace-nowrap ${
                       active
-                        ? 'text-orange-500'
+                        ? 'text-slate-900'
                         : 'text-slate-700 hover:text-slate-900'
                     }`}
                   >
                     {item.label}
                     {active && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-orange-500"></span>
-                    )}
-                    {!active && (
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-slate-900 group-hover:w-full transition-all duration-300"></span>
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black"></span>
                     )}
                   </Link>
                 );
@@ -229,8 +236,8 @@ export default function Navbar() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-6 py-4 text-lg font-semibold transition-colors duration-200 ${
                   active
-                    ? 'bg-orange-50 text-orange-600 border-l-4 border-orange-500'
-                    : 'text-slate-900 hover:bg-slate-50 hover:text-orange-500'
+                    ? 'bg-slate-100 text-slate-900 border-l-4 border-black'
+                    : 'text-slate-900 hover:bg-slate-50 hover:text-slate-900'
                 }`}
               >
                 {item.label}
