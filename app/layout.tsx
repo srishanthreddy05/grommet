@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/src/context/CartContext";
@@ -35,7 +36,9 @@ export default function RootLayout({
           <AnnouncementBar />
           
           {/* Header + Navigation */}
-          <Navbar />
+          <Suspense fallback={<div className="h-24 bg-[#FEF7EF]" />}>
+            <Navbar />
+          </Suspense>
           
           {/* Main Content */}
           <main className="min-h-[calc(100vh-400px)] bg-[#FEF7EF]">
