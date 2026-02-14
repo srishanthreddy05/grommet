@@ -4,7 +4,7 @@ export default function HeroStats() {
   return (
     <section className="relative bg-grommetBg">
       {/* Wave SVG at top */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none">
+      {/* <div className="absolute top-0 left-0 w-full overflow-hidden leading-none">
         <svg
           className="relative block w-full h-8 sm:h-12"
           xmlns="http://www.w3.org/2000/svg"
@@ -16,18 +16,17 @@ export default function HeroStats() {
             className="fill-white"
           ></path>
         </svg>
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center relative z-10">
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
-          10,000+
-        </h2>
-        <p className="text-lg sm:text-xl text-slate-800 font-medium">
+        
+        <p className="text-lg sm:text-xl text-slate-800 font-medium font-serif">
           Happy customers across India
         </p>
-        <p className="text-sm sm:text-base text-slate-700 mt-2">
+        <p className="text-sm sm:text-base text-slate-700 mt-2 font-light">
           Trusted for quality car frames and collectibles
         </p>
+
       </div>
 
     </section>

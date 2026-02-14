@@ -204,68 +204,70 @@ export default function ProfilePage() {
   // Logged in - show profile and orders
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FAF8F5] via-[#FBF9F6] to-[#F9F6F1]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full px-8 sm:px-10 lg:px-12 py-8 sm:py-12">
         {/* Profile Card */}
         <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-xl border border-[#E8DFD4]/50 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-[#8B7355]/10 to-[#6B5D52]/10 px-8 py-10 border-b border-[#E8DFD4]">
-            <div className="max-w-3xl mx-auto">
-              <div className="flex items-center gap-6 mb-6">
-                <div>
-                  <h1 className="text-3xl font-semibold text-[#3D3430] mb-1 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
-                    {user.displayName || 'Valued Customer'}
-                  </h1>
-                  <p className="text-[#6B5D52] text-sm">Premium Member</p>
-                </div>
+          <div className="bg-gradient-to-r from-[#8B7355]/10 to-[#6B5D52]/10 px-4 sm:px-8 py-8 sm:py-10 border-b border-[#E8DFD4]">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-semibold text-[#3D3430] mb-1 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+                {user.displayName || 'Valued Customer'}
+              </h1>
+              <p className="text-[#6B5D52] text-sm">Premium Member</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+              <div className="bg-white/50 rounded-2xl p-4 sm:p-5 border border-[#E8DFD4]/30">
+                <p className="text-xs text-[#8B7D72] font-semibold mb-2 uppercase tracking-wider">Email Address</p>
+                <p className="text-sm font-medium text-[#3D3430] break-all">
+                  {user.email || 'Not provided'}
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-white/50 rounded-2xl p-5 border border-[#E8DFD4]/30">
-                  <p className="text-xs text-[#8B7D72] font-semibold mb-2 uppercase tracking-wider">Email Address</p>
-                  <p className="text-sm font-medium text-[#3D3430] break-all">
-                    {user.email || 'Not provided'}
-                  </p>
-                </div>
-
-                <div className="bg-white/50 rounded-2xl p-5 border border-[#E8DFD4]/30">
-                  <p className="text-xs text-[#8B7D72] font-semibold mb-2 uppercase tracking-wider">Member Since</p>
-                  <p className="text-sm font-medium text-[#3D3430]">
-                    {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                  </p>
-                </div>
+              <div className="bg-white/50 rounded-2xl p-4 sm:p-5 border border-[#E8DFD4]/30">
+                <p className="text-xs text-[#8B7D72] font-semibold mb-2 uppercase tracking-wider">Member Since</p>
+                <p className="text-sm font-medium text-[#3D3430]">
+                  {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                </p>
               </div>
 
-              {error && (
-                <div className="bg-[#FFF4F4] border border-[#FFD6D6] rounded-xl p-4 mt-6">
-                  <p className="text-sm text-[#C53030]">{error}</p>
-                </div>
-              )}
+              <div className="bg-white/50 rounded-2xl p-4 sm:p-5 border border-[#E8DFD4]/30 sm:col-span-2 lg:col-span-1">
+                <p className="text-xs text-[#8B7D72] font-semibold mb-2 uppercase tracking-wider">Status</p>
+                <p className="text-sm font-medium text-[#3D3430]">
+                  Active
+                </p>
+              </div>            </div>
 
-              <div className="flex justify-end mt-6">
-                <button
-                  onClick={handleLogout}
-                  disabled={authLoading}
-                  className="bg-[#C53030] hover:bg-[#A52A2A] disabled:bg-[#C4B5A8] text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                >
-                  {authLoading ? (
-                    <span className="flex items-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      Logging out...
-                    </span>
-                  ) : (
-                    'Sign Out'
-                  )}
-                </button>
+            {error && (
+              <div className="bg-[#FFF4F4] border border-[#FFD6D6] rounded-xl p-4 mt-6">
+                <p className="text-sm text-[#C53030]">{error}</p>
               </div>
+            )}
+
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={handleLogout}
+                disabled={authLoading}
+                className="bg-[#C53030] hover:bg-[#A52A2A] disabled:bg-[#C4B5A8] text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 text-sm shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              >
+                {authLoading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Logging out...
+                  </span>
+                ) : (
+                  'Sign Out'
+                )}
+              </button>
             </div>
           </div>
         </div>
 
         {/* Orders Section */}
         <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-xl border border-[#E8DFD4]/50 overflow-hidden">
-          <div className="px-8 py-10">
-            <div className="max-w-3xl mx-auto">
+          <div className="px-4 sm:px-8 py-8 sm:py-10">
+            <div>
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-semibold text-[#3D3430] mb-2 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+                <h2 className="text-2xl sm:text-3xl font-semibold text-[#3D3430] mb-2 tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
                   Order History
                 </h2>
                 <p className="text-[#6B5D52] text-sm">Track and manage your purchases</p>
@@ -291,41 +293,50 @@ export default function ProfilePage() {
                   </Link>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {orders.map((order, index) => (
+                <div className="space-y-3">
+                  {orders.map((order) => (
                     <div 
                       key={order.id} 
-                      className="bg-gradient-to-br from-white to-[#FAF8F5] rounded-2xl shadow-md hover:shadow-lg border border-[#E8DFD4]/50 p-6 transition-all duration-300 hover:-translate-y-1"
+                      className="bg-gradient-to-br from-white to-[#FAF8F5] rounded-2xl shadow-md hover:shadow-lg border border-[#E8DFD4]/50 p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1"
                     >
-                      <div className="flex justify-between items-start mb-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
                         <div>
                           <p className="text-xs text-[#8B7D72] font-semibold uppercase tracking-wider mb-1">Order ID</p>
-                          <p className="text-sm font-mono font-medium text-[#3D3430] bg-[#F5F2ED] px-3 py-1 rounded-lg inline-block">
+                          <p className="text-sm font-mono font-medium text-[#3D3430]">
                             #{order.id.slice(0, 10).toUpperCase()}
                           </p>
                         </div>
-                        <span className="text-xs font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-emerald-50 to-green-50 text-emerald-700 border border-emerald-200">
-                          {order.status || 'Confirmed'}
-                        </span>
-                      </div>
-                      
-                      <div className="flex justify-between items-end pt-4 border-t border-[#E8DFD4]/30">
-                        <div className="flex items-center gap-2 text-xs text-[#8B7D72]">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          {order.createdAt 
-                            ? new Date(order.createdAt).toLocaleDateString('en-US', { 
-                                month: 'short', 
-                                day: 'numeric', 
-                                year: 'numeric' 
-                              })
-                            : 'Date unavailable'
-                          }
+                        
+                        <div>
+                          <p className="text-xs text-[#8B7D72] font-semibold uppercase tracking-wider mb-1">Date</p>
+                          <div className="flex items-center gap-2 text-sm text-[#3D3430]">
+                            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {order.createdAt 
+                              ? new Date(order.createdAt).toLocaleDateString('en-US', { 
+                                  month: 'short', 
+                                  day: 'numeric', 
+                                  year: 'numeric' 
+                                })
+                              : 'N/A'
+                            }
+                          </div>
                         </div>
+
+                        <div>
+                          <p className="text-xs text-[#8B7D72] font-semibold uppercase tracking-wider mb-1">Products</p>
+                          <p className="text-sm text-[#3D3430]">
+                            {(order.items || [])
+                              .map((item: { name?: string }) => item.name)
+                              .filter(Boolean)
+                              .join(', ') || 'N/A'}
+                          </p>
+                        </div>
+
                         <div className="text-right">
                           <p className="text-xs text-[#8B7D72] font-semibold uppercase tracking-wider mb-1">Total</p>
-                          <p className="text-xl font-semibold text-[#3D3430]" style={{ fontFamily: 'Playfair Display, serif' }}>
+                          <p className="text-lg sm:text-xl font-semibold text-[#3D3430]" style={{ fontFamily: 'Playfair Display, serif' }}>
                             ₹{(order.totalAmount || 0).toLocaleString('en-IN')}
                           </p>
                         </div>

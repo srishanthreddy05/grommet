@@ -145,10 +145,6 @@ export default function HomeCategorySection({
 
           {/* Premium Products Horizontal Scroll */}
           <div className="relative group">
-            {/* Scroll Gradient Overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FFF9F0] to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FFF9F0] to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
             <div 
               className="flex gap-5 sm:gap-6 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
               style={{
@@ -181,8 +177,7 @@ export default function HomeCategorySection({
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       
-                      {/* Gradient Overlay on Hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-amber-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
 
                       {/* Discount Badge */}
                       {hasDiscount && (
@@ -234,7 +229,7 @@ export default function HomeCategorySection({
           </div>
 
           {/* Enhanced View All Button */}
-          <div className="flex justify-center mt-10">
+          <div className="flex justify-center mt-16">
             <Link
               href={`/items?category=${categorySlug}`}
               className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-amber-100 to-orange-100 text-amber-900 px-8 py-4 rounded-full text-sm font-semibold hover:from-amber-200 hover:to-orange-200 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-300/50 overflow-hidden"
