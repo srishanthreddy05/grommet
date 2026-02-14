@@ -55,9 +55,12 @@ interface WhatsAppMessage {
 }
 
 function generateOrderId(): string {
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-  return `ORD-${timestamp}${random}`;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `GMT-${code}`;
 }
 
 function generateWhatsAppMessage(order: OrderData): WhatsAppMessage {
@@ -125,6 +128,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get database instance
+    const db = getAdminDatabase();
+
+    // Check stock availability and decrease stock for each item
+    for (const item of items) {
+      const stockRef = db.ref(`stock/${item.id}`);
+      const stockSnapshot = await stockRef.get();
+
+      if (!stockSnapshot.exists()) {
+        return NextResponse.json(
+          { error: `Product ${item.name} not found in stock` },
+          { status: 400 }
+        );
+      }
+
+      const productData = stockSnapshot.val();
+      const currentStock = productData.stock || 0;
+
+      // Check if sufficient stock is available
+      if (currentStock < item.quantity) {
+        return NextResponse.json(
+          { error: `Insufficient stock for ${item.name}. Available: ${currentStock}, Requested: ${item.quantity}` },
+          { status: 400 }
+        );
+      }
+
+      // Decrease stock
+      const newStock = currentStock - item.quantity;
+      await stockRef.update({ stock: newStock });
+    }
+
     // Generate order ID
     const orderId = generateOrderId();
 
@@ -144,7 +178,6 @@ export async function POST(request: NextRequest) {
     };
 
     // Store order in Firebase Realtime Database
-    const db = getAdminDatabase();
     const ordersRef = db.ref(`orders/${orderId}`);
 
     await ordersRef.set(order);
